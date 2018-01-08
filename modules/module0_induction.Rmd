@@ -11,20 +11,21 @@ output: slidy_presentation
 
 ## Where to find stuff
 
-* Github site for our version of these materials:   [https://github.com/TheRensselaerIDEA/r-bootcamp-2018-rpi](https://github.com/TheRensselaerIDEA/r-bootcamp-2018-rpi)
+* Github site for RPI version of these materials:   [https://github.com/TheRensselaerIDEA/r-bootcamp-2018-rpi](https://github.com/TheRensselaerIDEA/r-bootcamp-2018-rpi)
 * Github site for Berkeley's original version:   
 [https://github.com/berkeley-scf/r-bootcamp-2017](https://github.com/berkeley-scf/r-bootcamp-2017)
-* You can 'clone' the github repositories or get the individual files from Github. 
+* You can 'clone' one of these github repositories or get the individual files from Github. 
 
 If you have an administrative question, email idea-r-bootcamp@cs.lists.rpi.edu 
 
 # How we'll operate
 
-* The Bootcamp is organized in modules, each of which will be a combination of lecture/demo presentation concluded by a 'breakout' session in which you'll work on a variety of problems of different levels of difficulty. 
+* This Bootcamp is organized in *modules*, each of which will be a combination of lecture/demo presentation concluded by a 'breakout' session in which you'll work on a variety of problems of different levels of difficulty. 
 
 * Our idea (hope?) is for each person to find problems that challenge them but are not too hard. Solutions to the breakout problems will be presented before the start of the next module. 
+    + In some cases we might simply review the solution as the breakout
 
-* Many of the modules will use a common dataset as an example on which to carry out various operations. 
+* Many of the modules use a common dataset as an example on which to carry out various operations. 
     + We'll focus on a dataset of on-time information for US airline flights, 1987-2008 provided by the US government's Bureau of Transportation Statistics. This dataset is available in its entirety [here](http://stat-computing.org/dataexpo/2009/the-data.html). 
     + This dataset is about 3.5 Gb compressed, so we'll work with a subset of just flights departing from SFO for 2005-2008, available in the Github repository as *airline.csv*.
     + Note that this is the full population of such flights -- We'll fit some statistical models but the interpretation is tricky as we are not working with a sample from a well-defined population.
@@ -33,7 +34,7 @@ If you have an administrative question, email idea-r-bootcamp@cs.lists.rpi.edu
 # How we'll operate (2)
 
 * Helpers will be available to help answer any questions you have (just wave to one of them), or feel free to just ask the presenter during the presentation. 
-* We have set up a Slack channel for Bootcamp-related chats; see []()
+* We have set up a Slack channel for Bootcamp-related chats; follow [the invitation link](https://join.slack.com/t/therensselaeridea/shared_invite/enQtMjk1ODg5NjM1Mjg0LTU1NDljM2MzNTQ0MmM3YjA4Y2FhMzk0YTMyNmMzYTNmYTExMWRlMjE4YjkyN2Q2Yjg5M2Y2NzE0Yzg5Y2NhOGQ)
 * Feel free to type in a question there and one of the helps will answer the question. If you see a question and know the answer, help us out by answering it yourself or adding your thoughts. 
 
 
@@ -42,23 +43,23 @@ If you have an administrative question, email idea-r-bootcamp@cs.lists.rpi.edu
 Please:
 
 * Try out the code as we walk through it
-* Keep your eyes open! -- We'll illustrate a lot of syntax and concepts by example
+* Keep your eyes open! We illustrate a lot of syntax and concepts by example
 * Try to guess what the syntax means in cases we haven't yet seen that syntax
 * Play with it and try variations and try to break it and see what happens
-* Tell us if something interesting happens as you experiment, or post a comment in the chat room
-* Ask questions of the presenter, the helpers, and in the Slack channel
+* Tell us if something interesting happens as you experiment, or post a comment in the [Slack channel](https://therensselaeridea.slack.com/messages/C8QLZH6DU/details/)
+* Ask questions of the presenter, the helpers, and in the [Slack channel](https://therensselaeridea.slack.com/messages/C8QLZH6DU/details/)
 
-*This is a bootcamp.* So there may be some pain involved! If you find yourself not following everything, that's ok. You may miss some details, but try to follow the basics and the big picture. 
+*This is a bootcamp...* So there may be some pain involved! If you find yourself not following everything, that's ok. You may miss some details, but try to follow the basics and the big picture. 
 
 # A few additional thoughts 
 
 * We want to expose you to a lot of tools and ideas that you can come back to when you need them and when you have time for more depth.
-* Our aim is not to show you how to use specific statistical methods or analysis techniques. My goal is to get you up to speed generally in R.
-* It can be hard to absorb everything in such a concentrated situation. Hopefully the material presented will be useful to you over the longer-term as you do more work with R.
+* Our aim is not to show you how to use specific statistical methods or analysis techniques. Our goal is to get you up to speed generally in R.
+* It can be hard to absorb everything in such a concentrated situation. Hopefully the material presented will be useful to you over the longer term as you do more work with R.
 
 # RStudio and R Markdown
 
-+ We'll present most of the material from within RStudio, using R Markdown documents with embedded R code. 
++ We'll present most of the material from within **RStudio**, using R Markdown documents with embedded R code. 
 + R Markdown is an extension to the Markdown markup language that makes it easy to write HTML in a simple plain text format.  This allows us to both run the R code directly as well as compile on-the-fly to an HTML file that can be used for presentation. 
 + All source files will be available on our  [Github](https://github.com/TheRensselaerIDEA/r-bootcamp-2018-rpi)
 
@@ -81,7 +82,7 @@ Within RStudio go to `File->New Project->Version Control->Git` and enter:
 Then to update from the repository to get any changes we've made, you can select (from within RStudio):
 `Tools -> Version Control -> Pull Branches`
 
-or from the Environment/History/Git window, click on the Git tab and then on the blue down arrow.
+or from the `Environment/History/Git` window, click on the Git tab and then on the blue down arrow.
 
 Be warned that you probably do not want to make your own notes or changes to the files we are providing. Because if you do, and you then do a "Git Pull" to update the materials, you'll have to deal with the conflict between your local version and our version. You probably will want to make a personal copy of such files in another directory or by making copies of files with new names.
 
@@ -131,6 +132,8 @@ The pieces of an R session include:
 - Workspace containing your objects, which hold data and information
 
 RStudio provides an integrated development environment in which all of these pieces are in a single application and tightly integrated, with a built-in editor for your code/scripts. 
+
+![](img/rstudio_shot.png)
 
 # Why R?
 
