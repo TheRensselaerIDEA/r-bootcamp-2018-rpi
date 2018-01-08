@@ -1,0 +1,19 @@
+#! /usr/bin/Rscript
+# usage:
+# ./make_slides module0_induction
+# ./make_slides module1_basics
+# etc.
+
+library(knitr)
+library(rmarkdown)
+
+module <- commandArgs(trailingOnly = TRUE)
+source <- paste(module, ".Rmd", sep = "")
+
+if (file.exists(source)){
+    knit(source, envir = new.env())
+    system(paste("pandoc -s --webtex -t slidy ", paste(module, ".md", sep = ""), " -o ", paste(module, "_slides.html", sep = ""), " --self-contained"))
+    render(source, envir = new.env())
+} else {
+    cat("Error: ", source, "does not exist.\n")
+}

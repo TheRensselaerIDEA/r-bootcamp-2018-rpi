@@ -1,0 +1,19 @@
+# emacs backup files
+*~
+
+# intermediate markdown files
+*.md
+.Rproj.user
+
+# Database files (possible HUGE)
+*.db
+*.rdb
+
+# .Rhistory
+.Rhistory
+
+# Any cache subdirectories
+cache/
+
+# The admin subdirectory
+admin/
