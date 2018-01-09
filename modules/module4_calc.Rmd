@@ -69,6 +69,11 @@ Recall that `+`, `-`,`*`, `/` do vectorized calculations:
 A <- matrix(1:9, 3)
 B <- matrix(seq(4,36, by = 4), 3)
 
+# First let's review A and B...
+A
+B
+
+# Now perform some simple operations...
 A + B
 A + B[ , 1]
 A * B
@@ -334,13 +339,13 @@ What's the deal with the `all.x` and `all.y` ?  We can tell R whether we want to
 
 # Breakout
 
-### Basics
+## Basics
 
 1) Create a vector that concatenates the Dest and Origin to create a 'Route' variable in a vectorized way using the string processing functions.
 
 2) Use `table()` to figure out the number of flights for each year.
 
-### Using the ideas
+## Using the ideas
 
 3) Compute the number of NAs in each column of the *air* dataset using `sapply()` and making use of the `is.na()` function.
 

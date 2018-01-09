@@ -74,10 +74,10 @@ chi2_df1000 &lt;-<span class="st"> </span><span class="kw">sum</span>(chi2vals)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vals &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="fl">1e6</span>)
 <span class="kw">system.time</span>(trunc &lt;-<span class="st"> </span><span class="kw">ifelse</span>(vals &gt;<span class="st"> </span><span class="dv">0</span>, vals, <span class="dv">0</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.072   0.000   0.072</code></pre>
+##   0.076   0.000   0.075</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(vals &lt;-<span class="st"> </span>vals *<span class="st"> </span>(vals &gt;<span class="st"> </span><span class="dv">0</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.008   0.000   0.011</code></pre>
+##   0.012   0.000   0.010</code></pre>
 <p><strong>Question</strong>: What am I doing with <code>vals * (vals &gt; 0)</code> ? What happens behind the scenes in R?</p>
 <p>If you use a trick like this, having a comment in your code is a good idea.</p>
 <p>Lots of functions in R are vectorized, such as some we’ve already used.</p>
@@ -98,6 +98,18 @@ air$DepHour &lt;-<span class="st"> </span><span class="kw">substring</span>(tmp,
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">9</span>, <span class="dv">3</span>)
 B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">seq</span>(<span class="dv">4</span>,<span class="dv">36</span>, <span class="dt">by =</span> <span class="dv">4</span>), <span class="dv">3</span>)
 
+<span class="co"># First let's review A and B...</span>
+A</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    4   16   28
+## [2,]    8   20   32
+## [3,]   12   24   36</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Now perform some simple operations...</span>
 A +<span class="st"> </span>B</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    5   20   35
@@ -199,7 +211,7 @@ for(i in <span class="dv">1</span>:n)
       vals[i] &lt;-<span class="st"> </span>i
 })</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.052   0.000   0.054</code></pre>
+##   0.048   0.000   0.046</code></pre>
 <p>Here’s how to pre-allocate an empty list:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vals &lt;-<span class="st"> </span><span class="kw">list</span>(); <span class="kw">length</span>(vals) &lt;-<span class="st"> </span>n
 <span class="kw">head</span>(vals)</code></pre></div>
@@ -736,12 +748,12 @@ air2 &lt;-<span class="st"> </span><span class="kw">merge</span>(air, numFlights
 </div>
 <div id="breakout" class="slide section level1">
 <h1>Breakout</h1>
-<h3 id="basics">Basics</h3>
+<h2 id="basics">Basics</h2>
 <ol style="list-style-type: decimal">
 <li><p>Create a vector that concatenates the Dest and Origin to create a ‘Route’ variable in a vectorized way using the string processing functions.</p></li>
 <li><p>Use <code>table()</code> to figure out the number of flights for each year.</p></li>
 </ol>
-<h3 id="using-the-ideas">Using the ideas</h3>
+<h2 id="using-the-ideas">Using the ideas</h2>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Compute the number of NAs in each column of the <em>air</em> dataset using <code>sapply()</code> and making use of the <code>is.na()</code> function.</p></li>
 <li><p>Merge the info from data/carriers.csv with the airline dataset so that we have the full names of the airlines as a new column in the data frame.</p></li>

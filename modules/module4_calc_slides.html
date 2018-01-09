@@ -74,10 +74,10 @@ chi2_df1000 &lt;-<span class="st"> </span><span class="kw">sum</span>(chi2vals)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vals &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="fl">1e6</span>)
 <span class="kw">system.time</span>(trunc &lt;-<span class="st"> </span><span class="kw">ifelse</span>(vals &gt;<span class="st"> </span><span class="dv">0</span>, vals, <span class="dv">0</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.080   0.008   0.090</code></pre>
+##   0.076   0.020   0.095</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(vals &lt;-<span class="st"> </span>vals *<span class="st"> </span>(vals &gt;<span class="st"> </span><span class="dv">0</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.012   0.000   0.010</code></pre>
+##   0.012   0.000   0.009</code></pre>
 <p><strong>Question</strong>: What am I doing with <code>vals * (vals &gt; 0)</code> ? What happens behind the scenes in R?</p>
 <p>If you use a trick like this, having a comment in your code is a good idea.</p>
 <p>Lots of functions in R are vectorized, such as some we've already used.</p>
@@ -98,6 +98,18 @@ air$DepHour &lt;-<span class="st"> </span><span class="kw">substring</span>(tmp,
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">9</span>, <span class="dv">3</span>)
 B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">seq</span>(<span class="dv">4</span>,<span class="dv">36</span>, <span class="dt">by =</span> <span class="dv">4</span>), <span class="dv">3</span>)
 
+<span class="co"># First let's review A and B...</span>
+A</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    4   16   28
+## [2,]    8   20   32
+## [3,]   12   24   36</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Now perform some simple operations...</span>
 A +<span class="st"> </span>B</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    5   20   35
@@ -175,7 +187,7 @@ for(i in <span class="dv">1</span>:n)
       vals &lt;-<span class="st"> </span><span class="kw">c</span>(vals, i)
 })</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.812   0.024   2.836</code></pre>
+##   2.816   0.024   2.840</code></pre>
 <p>The same holds for using <code>rbind()</code>, <code>cbind()</code>, or adding to a list, one element at a time.</p>
 <p>This is both slow and unclear (in the sense that it appears the code has a bug, but it works):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vals &lt;-<span class="st"> </span><span class="dv">0</span>
@@ -185,7 +197,7 @@ for(i in <span class="dv">1</span>:n)
       vals[i] &lt;-<span class="st"> </span>i
 })</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.052   0.000   0.050</code></pre>
+##   0.052   0.000   0.052</code></pre>
 <p><strong>Question</strong>: Thoughts on why these are so slow? Think about what R might be doing behind the scenes</p>
 </div>
 <div id="the-answer-is-to-pre-allocate-memory" class="slide section level1">
@@ -199,7 +211,7 @@ for(i in <span class="dv">1</span>:n)
       vals[i] &lt;-<span class="st"> </span>i
 })</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.048   0.000   0.045</code></pre>
+##   0.048   0.000   0.046</code></pre>
 <p>Here's how to pre-allocate an empty list:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vals &lt;-<span class="st"> </span><span class="kw">list</span>(); <span class="kw">length</span>(vals) &lt;-<span class="st"> </span>n
 <span class="kw">head</span>(vals)</code></pre></div>
@@ -237,15 +249,15 @@ col_sum &lt;-<span class="st"> </span><span class="kw">colSums</span>(mat)</code
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myList &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">rnorm</span>(<span class="dv">3</span>), <span class="kw">rnorm</span>(<span class="dv">3</span>), <span class="kw">rnorm</span>(<span class="dv">5</span>))
 <span class="kw">lapply</span>(myList, min)</code></pre></div>
 <pre><code>## [[1]]
-## [1] -0.5713738
+## [1] -2.172009
 ## 
 ## [[2]]
-## [1] 0.001712378
+## [1] -0.1600853
 ## 
 ## [[3]]
-## [1] -0.7307673</code></pre>
+## [1] -1.09288</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sapply</span>(myList, min)</code></pre></div>
-<pre><code>## [1] -0.571373801  0.001712378 -0.730767271</code></pre>
+<pre><code>## [1] -2.1720091 -0.1600853 -1.0928797</code></pre>
 <p>Note that we don't generally want to use <code>apply()</code> on a data frame.</p>
 <p>You can use <code>lapply()</code> and <code>sapply()</code> on regular vectors, such as vectors of indices, which can come in handy, though this is a silly example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sapply</span>(<span class="dv">1</span>:<span class="dv">10</span>, function(x) x^<span class="dv">2</span>)</code></pre></div>
@@ -739,12 +751,12 @@ air2 &lt;-<span class="st"> </span><span class="kw">merge</span>(air, numFlights
 </div>
 <div id="breakout" class="slide section level1">
 <h1>Breakout</h1>
-<h3 id="basics">Basics</h3>
+<h2 id="basics">Basics</h2>
 <ol style="list-style-type: decimal">
 <li><p>Create a vector that concatenates the Dest and Origin to create a 'Route' variable in a vectorized way using the string processing functions.</p></li>
 <li><p>Use <code>table()</code> to figure out the number of flights for each year.</p></li>
 </ol>
-<h3 id="using-the-ideas">Using the ideas</h3>
+<h2 id="using-the-ideas">Using the ideas</h2>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Compute the number of NAs in each column of the <em>air</em> dataset using <code>sapply()</code> and making use of the <code>is.na()</code> function.</p></li>
 <li><p>Merge the info from data/carriers.csv with the airline dataset so that we have the full names of the airlines as a new column in the data frame.</p></li>

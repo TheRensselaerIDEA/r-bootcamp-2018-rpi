@@ -163,15 +163,15 @@ f &lt;-<span class="st"> </span>function() {y &lt;-<span class="st"> </span><spa
 <p>There are a few tools in R for timing your code.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(<span class="kw">mean</span>(<span class="kw">rnorm</span>(<span class="fl">1e7</span>)))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.040   0.008   1.050</code></pre>
+##   1.008   0.016   1.026</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rbenchmark)
 x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="fl">1e7</span>)
 <span class="kw">benchmark</span>(<span class="kw">ifelse</span>(x &lt;<span class="st"> </span><span class="dv">0</span>, x, <span class="dv">0</span>),
                    x[x &lt;<span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="dv">0</span>, <span class="dt">replications =</span> <span class="dv">5</span>,
                    <span class="dt">columns =</span> <span class="kw">c</span>(<span class="st">'replications'</span>, <span class="st">'elapsed'</span>))</code></pre></div>
 <pre><code>##   replications elapsed
-## 1            5   3.724
-## 2            5   0.405</code></pre>
+## 1            5   3.749
+## 2            5   0.401</code></pre>
 </div>
 <div id="profiling-your-code" class="slide section level1">
 <h1>Profiling your code</h1>
@@ -224,12 +224,12 @@ summaryRprof(&quot;profile2.out&quot;)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="fl">1e8</span>)
 <span class="kw">gc</span>()</code></pre></div>
 <pre><code>##             used  (Mb) gc trigger   (Mb)  max used  (Mb)
-## Ncells   1671930  89.3    2637877  140.9   2164898 115.7
+## Ncells   1671928  89.3    2637877  140.9   2164898 115.7
 ## Vcells 112188217 856.0  176353529 1345.5 122198780 932.4</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(x)
 <span class="kw">gc</span>()</code></pre></div>
 <pre><code>##            used (Mb) gc trigger   (Mb)  max used  (Mb)
-## Ncells  1671949 89.3    2637877  140.9   2164898 115.7
+## Ncells  1671947 89.3    2637877  140.9   2164898 115.7
 ## Vcells 12188258 93.0  141082823 1076.4 122198780 932.4</code></pre>
 </div>
 <div id="scripting" class="slide section level1">

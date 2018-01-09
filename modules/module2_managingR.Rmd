@@ -170,10 +170,10 @@ To read and write from R, you need to have a firm grasp of where in the computer
 ```{r, eval=FALSE}
 getwd()  # what directory will R look in?
 # Linux/Mac specific
-setwd('~/Desktop/r-bootcamp-2017') # change the working directory
-setwd('/Users/paciorek/Desktop') # absolute path
+setwd('~/Desktop/r-bootcamp-2018') # change the working directory
+setwd('/home/olyerickson/Desktop/r-bootcamp-2018-rpi') # absolute path
 getwd()
-setwd('r-bootcamp-2017/modules') # relative path
+setwd('r-bootcamp-2018/modules') # relative path
 setwd('../tmp') # relative path, up and back down the tree
 
 # Windows - use either \\ or / to indicate directories
@@ -181,11 +181,10 @@ setwd('../tmp') # relative path, up and back down the tree
 # setwd('..\\r-bootcamp-2017')
 
 # platform-agnostic
-setwd(file.path('~', 'Desktop', 'r-bootcamp-2017', 'modules')) # change the working directory
-setwd(file.path('/', 'Users', 'paciorek', 'Desktop', 'r-bootcamp-2017', 'modules')) # absolute path
-getwd()
-setwd(file.path('..', 'data')) # relative path
+setwd(file.path('~', 'Desktop', 'r-bootcamp-2018', 'modules')) # change the working directory
+
 ```
+
 Many errors and much confusion result from you and R not being on the same page in terms of where in the directory structure you are.
 
 # Reading text files into R
@@ -217,17 +216,21 @@ R can also read in (and write out) Excel files, netCDF files, HDF5 files, etc., 
 
 A pause for a (gentle) diatribe:
 
-Please try to avoid using Excel files as a data storage format. It's proprietary, complicated (can have multiple sheets), allows a limited number of rows/columns, and files are not easily readable/viewable (unlike simple text files).
+**Please** try to avoid using Excel files as a data storage format. 
+    + It is proprietary...
+    + ...complicated (can have multiple sheets)
+    + ...allows a limited number of rows/columns
+    + ...and files are not easily readable/viewable (unlike simple text files)
 
 # Writing data out from R
 
 Here you have a number of options. 
 
-1) You can write out R objects to an R Data file, as we've seen, using `save()` and `save.image()`.
-2) You can use `write.csv()` and `write.table()` to write data frames/matrices to flat text files with delimiters such as comma and tab.
-3) You can use `write()` to write out matrices in a simple flat text format.
-4) You can use `cat()` to write to a file, while controlling the formatting to a fine degree.
-5) You can write out in the various file formats mentioned on the previous slide
+1. You can write out R objects to an R Data file, as we've seen, using `save()` and `save.image()`.
+2. You can use `write.csv()` and `write.table()` to write data frames/matrices to flat text files with delimiters such as comma and tab.
+3. You can use `write()` to write out matrices in a simple flat text format.
+4. You can use `cat()` to write to a file, while controlling the formatting to a fine degree.
+5. You can write out in the various file formats mentioned on the previous slide
 
 ### Writing out plots and tables
 
@@ -237,9 +240,10 @@ x <- rnorm(10); y <- rnorm(10)
 plot(x, y)
 dev.off()
 ```
+
 `xtable()` formats tables for HTML and Latex (the default).
 
-```{r}
+```{r,  results = "asis"}
 require(xtable)
 print(xtable(table(air$UniqueCarrier, air$Cancelled)), type = "html")
 ```
@@ -248,27 +252,27 @@ Recall our discussion of the `summary()` function used on either a vector or a r
 
 # Version control
 
-### Overview
+## Overview
 
 At a basic level, a simple principle is to have version numbers for all your work: code, datasets, manuscripts. Whenever you make a change to a dataset, increment the version number. For code and manuscripts, increment when you make substantial changes or have obvious breakpoints in your workflow. 
 
 However, this is a hassle to do manually. Instead of manually trying to keep track of what changes you've made to code, data, documents, you use software to help you manage the process. This has several benefits:
 
-* easily allowing you to go back to earlier versions
-* allowing you to have multiple versions you can switch between
-* allowing you to share work easily without worrying about conflicts
-* providing built-in backup
++ easily allowing you to go back to earlier versions
++ allowing you to have multiple versions you can switch between
++ allowing you to share work easily without worrying about conflicts
++ providing built-in backup
 
 
-### Git and Github
+## Git and Github
 
 Git is a popular tool for version control. Git is based around the notion of a repository, which is basically a version-controlled project directory. Many people use it with the Github or Bitbucket online hosting services for repositories.
 
 In the introductory material, we've already seen how to get a copy of a Github repository on your local machine. 
 
-As you're gathering by now, I've used Git and Github to manage all the content for this workshop.
+As you're gathering by now, we've used Git and Github to manage all the content for this workshop.
 
-### Making changes to a repository
+## Making changes to a repository
 
 We'll go through a short example of making changes to the r-bootcamp-2017 repository. In this case you don't have permission to make changes so you'll just have to follow along as I do it. However, you could start your own repository and then you'd be able to do similar things.
 
@@ -292,10 +296,11 @@ git push
 
 The changes are then available to anyone to *pull* from the remote repository, a using `git pull` or graphical interfaces, such as using RStudio's tools to pull the changes to your machine, discussed in the Github slide in module 0.
 
+![SImplified git Workflow](img/git-workflow.png) 
 
 # Getting R help online
 
-### Mailing lists
+## Mailing lists
 
 There are several mailing lists that have lots of useful postings. In general if you have an error, others have already posted about it.
 
@@ -310,7 +315,7 @@ There are several mailing lists that have lots of useful postings. In general if
 
 *If you are searching you often want to search for a specific error message.* Remember to use double quotes around your error message so it is not broken into individual words by the search engine. 
 
-### Posting your own questions
+## Posting your own questions
 
 + Do your homework first to make sure the answer is not already available on the mailing list or in other documentation. 
 + Some of the folks who respond to mailing list questions are not the friendliest so it helps to have a thick skin, even if you have done your homework. 
