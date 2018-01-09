@@ -23,10 +23,10 @@ air <- read.csv(file.path('..', 'data', 'airline.csv'), stringsAsFactors = FALSE
 7 + runif(1) # add a random number
 3^4 # powers
 sqrt(4^4) # functions
-log(10)
-log(100, base = 10)
-23 %/% 2 
-23 %% 2
+log(10) # Natural log (be careful!)
+log(100, base = 10) # Base 10 log
+23 %/% 2 # Integer division
+23 %% 2 # modulus (x mod y)
 
 # scientific notation
 5000000000 * 1000

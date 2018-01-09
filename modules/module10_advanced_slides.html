@@ -133,7 +133,7 @@ mod2$residuals[<span class="dv">1</span>:<span class="dv">20</span>] <span class
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predict</code></pre></div>
 <pre><code>## function (object, ...) 
 ## UseMethod(&quot;predict&quot;)
-## &lt;bytecode: 0x3f7a898&gt;
+## &lt;bytecode: 0x2932b48&gt;
 ## &lt;environment: namespace:stats&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># predict.glm</span></code></pre></div>
 <p>When <code>predict()</code> is called on a GLM object, it first calls the generic <code>predict()</code>, which then recognizes that the first argument is of the class <em>glm</em> and immediately calls the right class-specific method, <code>predict.glm()</code> in this case.</p>
@@ -376,13 +376,14 @@ for(i in <span class="dv">1</span>:nVals) {
    results[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(tmp)
 }
 results</code></pre></div>
-<pre><code>## [1] -0.5249160  0.7884476  0.5695774</code></pre>
+<pre><code>## [1] 0.04458492 0.96265207 0.36315429</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">varName</code></pre></div>
 <pre><code>## [1] &quot;x3&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tmp</code></pre></div>
-<pre><code>##  [1] 0.4940771 0.9670534 0.2832219 0.2556014 0.4950338 0.9677257 0.3417744
-##  [8] 0.7775184 0.6508677 0.4786685 0.5886774 0.6820740 0.8617769 0.5584754
-## [15] 0.4666082 0.3300794 0.5718936 0.8358440 0.1816977 0.6028788</code></pre>
+<pre><code>##  [1] 0.17858372 0.01945538 0.13058482 0.12489915 0.20311136 0.70945272
+##  [7] 0.08004529 0.80828389 0.44876015 0.26871572 0.15530241 0.24150388
+## [13] 0.03351459 0.60619782 0.91829894 0.83629043 0.06909427 0.76979137
+## [19] 0.38430378 0.27689607</code></pre>
 <p>Or suppose you needed to create &quot;x1&quot;, &quot;x2&quot;, &quot;x3&quot;, automatically.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nVals &lt;-<span class="st"> </span><span class="dv">3</span>
 results &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, nVals)
@@ -391,8 +392,8 @@ for(i in <span class="dv">1</span>:nVals) {
    <span class="kw">assign</span>(varName, <span class="kw">rnorm</span>(<span class="dv">10</span>))
 }
 x2</code></pre></div>
-<pre><code>##  [1]  1.4552075  1.4454189  1.2679117 -0.5154937 -0.6167894  0.1187429
-##  [7]  0.3764977  1.2187248  1.5267622  0.7506628</code></pre>
+<pre><code>##  [1]  1.9668700  1.8640059  0.3002740  1.1029914  0.3398850 -1.4252141
+##  [7]  2.3427216  0.6144404 -1.5066865 -2.0228146</code></pre>
 <p>Can you think of any uses of this ability for R to self-generate?</p>
 </div>
 <div id="file-encodings" class="slide section level1">

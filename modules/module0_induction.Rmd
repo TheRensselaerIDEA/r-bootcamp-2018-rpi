@@ -18,7 +18,7 @@ output: slidy_presentation
 
 If you have an administrative question, email idea-r-bootcamp@cs.lists.rpi.edu 
 
-# How we'll operate
+# How we'll operate (1)
 
 * This Bootcamp is organized in *modules*, each of which will be a combination of lecture/demo presentation concluded by a 'breakout' session in which you'll work on a variety of problems of different levels of difficulty. 
 
@@ -115,7 +115,7 @@ If you don't want to bother using Git or have problems, simply download a zip fi
 
 # Modes of using R
 
-+ Using the RStudio GUI, an 'integrated development environment'
++ Using the RStudio GUI, an 'integrated development environment' (next slide)
 + From the command line in a Linux/Mac terminal window
 + Running an R script in the background on a Linux/Mac machine (Windows?)
 + Using the Windows/Mac GUIs
@@ -149,13 +149,13 @@ RStudio provides an integrated development environment in which all of these pie
 
 # Why Not R?
 
-* Other software is better than R at various tasks
-    
-* E.g., [Python](http://imgs.xkcd.com/comics/python.png) is very good for text manipulation, interacting with the operating system, and as a glue for tying together various applications/software in a workflow
-* R can be much slower than compiled languages
++ Other software enviroments may be better than R at various tasks
++ Example: [Python](http://imgs.xkcd.com/comics/python.png) is very good for text manipulation, interacting with the operating system, and as a glue for tying together various applications/software in a workflow
++ R can be much slower than compiled languages
     + but is often quite fast with good coding practices!
-* R's packages are only as good as the person who wrote them; no explicit quality control
-* R is a sprawling and (somewhat) un-standardized ecosystem
++ R's packages are only as good as the person who wrote them; no explicit quality control
++ R is a sprawling and (somewhat) un-standardized ecosystem
+    + But is getting tighter every day!
 
 # What are my other options? Get me out of here!
 
@@ -168,14 +168,14 @@ RStudio provides an integrated development environment in which all of these pie
 
 # Our hidden agenda
 
-In addition to learning some R, this workshop will expose you to a way of thinking about doing your computational work. 
+In addition to learning some R, this workshop will expose you to *a way of thinking about doing your computational work*
 
 The building blocks of **scientific computing** include:
 
-+ scripting
-+ reproducibility
-+ automating repetitive tasks
-+ version control (note our basic use of Git)
++ scripting...
++ reproducibility...
++ automating repetitive tasks...
++ version control (note our basic use of Git)...
 
 # The Legal Stuff
 

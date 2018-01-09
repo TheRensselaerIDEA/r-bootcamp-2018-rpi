@@ -173,7 +173,7 @@ z &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>); y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)
 <span class="kw">lm</span>(y ~<span class="st"> </span>x)</code></pre></div>
 <pre><code>## y ~ x
-## &lt;environment: 0x3d36550&gt;</code></pre>
+## &lt;environment: 0x2b71800&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stats::<span class="kw">lm</span>(y ~<span class="st"> </span>x)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -181,7 +181,7 @@ z &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a 
 ## 
 ## Coefficients:
 ## (Intercept)            x  
-##     -0.2907      -0.2811</code></pre>
+##     -0.2596      -0.1889</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(lm)</code></pre></div>
 <p>Can you explain what is going on? Consider the results of <code>search()</code>.</p>
 <h3 id="looking-inside-a-package">Looking inside a package</h3>
@@ -291,7 +291,7 @@ x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1
 <pre><code>## Loading required package: xtable</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">xtable</span>(<span class="kw">table</span>(air$UniqueCarrier, air$Cancelled)), <span class="dt">type =</span> <span class="st">&quot;html&quot;</span>)</code></pre></div>
 <pre><code>## &lt;!-- html table generated in R 3.4.2 by xtable 1.8-2 package --&gt;
-## &lt;!-- Mon Jan  8 10:18:51 2018 --&gt;
+## &lt;!-- Mon Jan  8 19:18:15 2018 --&gt;
 ## &lt;table border=1&gt;
 ## &lt;tr&gt; &lt;th&gt;  &lt;/th&gt; &lt;th&gt; 0 &lt;/th&gt; &lt;th&gt; 1 &lt;/th&gt;  &lt;/tr&gt;
 ##   &lt;tr&gt; &lt;td align=&quot;right&quot;&gt; AA &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 49222 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 1033 &lt;/td&gt; &lt;/tr&gt;
@@ -355,6 +355,7 @@ x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1
 <h3 id="mailing-lists">Mailing lists</h3>
 <p>There are several mailing lists that have lots of useful postings. In general if you have an error, others have already posted about it.</p>
 <ul>
+<li><strong>RPIrates:</strong> The RPI R Users Group <a href="https://cs.sympa.rpi.edu/wws/info/rpi-r-users" class="uri">https://cs.sympa.rpi.edu/wws/info/rpi-r-users</a></li>
 <li>R help: <a href="http://tolstoy.newcastle.edu.au/R/">R mailing lists archive</a></li>
 <li><a href="http://stackoverflow.com">Stack Overflow</a> (R stuff will be tagged with [R])</li>
 <li>R help special interest groups (SIG) such as <em>r-sig-hpc</em> (high performance computing), <em>r-sig-mac</em> (R on Macs), etc. (not easily searchable)</li>
@@ -365,27 +366,31 @@ x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1
 <li><a href="http://Rseek.org">Rseek.org</a> for Google searches restricted to sites that have information on R</li>
 </ul></li>
 </ul>
-<p>If you are searching you often want to search for a specific error message. Remember to use double quotes around your error message so it is not broken into individual words by the search engine.</p>
+<p><em>If you are searching you often want to search for a specific error message.</em> Remember to use double quotes around your error message so it is not broken into individual words by the search engine.</p>
 <h3 id="posting-your-own-questions">Posting your own questions</h3>
-<p>The main rule of thumb is to do your homework first to make sure the answer is not already available on the mailing list or in other documentation. Some of the folks who respond to mailing list questions are not the friendliest so it helps to have a thick skin, even if you have done your homework. On the plus side, they are very knowledgeable and include the world's foremost R experts/developers.</p>
+<ul>
+<li>Do your homework first to make sure the answer is not already available on the mailing list or in other documentation.</li>
+<li>Some of the folks who respond to mailing list questions are not the friendliest so it helps to have a thick skin, even if you have done your homework.</li>
+<li>On the plus side, they are very knowledgeable and include the world's foremost R experts/developers.</li>
+</ul>
 <p>Here are some guidelines when posting to one of the R mailing lists <a href="http://www.r-project.org/posting-guide.html" class="uri">http://www.r-project.org/posting-guide.html</a></p>
 <p><code>sessionInfo()</code> is a function that will give information about your R version, OS, etc., that you can include in your posting.</p>
 <p>You also want to include a short, focused, <a href="http://adv-r.had.co.nz/Reproducibility.html">reproducible</a> example of your problem that others can run.</p>
 </div>
 <div id="breakout" class="slide section level1">
 <h1>Breakout</h1>
-<h3 id="basics">Basics</h3>
+<h2 id="basics">Basics</h2>
 <ol style="list-style-type: decimal">
 <li><p>Make sure you are able to install packages from CRAN. E.g., try to install <em>lmtest</em>.</p></li>
 <li><p>Figure out what your current working directory is.</p></li>
 </ol>
-<h3 id="using-the-ideas">Using the ideas</h3>
+<h2 id="using-the-ideas">Using the ideas</h2>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Put the <em>data/cpds.csv</em> file in some other directory on your computer, such as <em>Downloads</em>. Use <code>setwd()</code> to set your working directory to be that directory. Read the file in using <code>read.csv()</code>. Now use <code>setwd()</code> to point to a different directory such as <em>Desktop</em>. Write the data frame out to a file without any row names and without quotes on the character strings.</p></li>
 <li><p>Make a plot with the airline data. Save it as a PDF in <em>Desktop</em>. Now see what happens if you set the <em>width</em> and <em>height</em> arguments to be very small and see how it affects the resulting PDF. Do the same but setting width and height to be very large.</p></li>
 <li><p>Figure out where (what directory) the <em>graphics</em> package is stored on your machine. Is it the same as where the <em>fields</em> package is stored?</p></li>
 </ol>
-<h3 id="advanced">Advanced</h3>
+<h2 id="advanced">Advanced</h2>
 <ol start="6" style="list-style-type: decimal">
 <li>Load the <em>spam</em> package. Note the message about <code>backsolve()</code> being masked from package:base. Now if you enter <code>backsolve</code>, you'll see the code associated with the version of <code>backsolve()</code> provided by the <em>spam</em> package. Now enter <code>base::backsolve</code> and you'll see the code for the version of <code>backsolve()</code> provided by base R. Explain why typing <code>backsolve</code> shows the <em>spam</em> version rather than the <em>base</em> version.</li>
 </ol>
