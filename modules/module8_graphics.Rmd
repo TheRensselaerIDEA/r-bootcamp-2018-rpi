@@ -23,14 +23,19 @@ medals <- read.csv(file.path('..', 'data', 'all_medalists.csv'), stringsAsFactor
 
 # By way of introduction...
 
-* 3 main facilities for producing graphics in R: **base**, **lattice**, and **ggplot2**
+* Three main facilities for producing graphics in R: 
+    * **base**
+    * **lattice**
+    * **ggplot2**
 * In practice, these facilities are grouped into two camps: "basic" and "advanced"
-* A better formulation: quick/dirty v. involved/fancy
+* A better formulation: 
+    * **quick & dirty** 
+    * **involved, subtle, fancy, expressive...** 
 
 # The data
 
 * All Summer Olympic medalists from 1896-2008
-* Variables include name, gender, country, country code (`NOC`), sporting event, and type of medal won
+* Variables include: name, gender, country, country code (`NOC`), sporting event, and type of medal won
 * We don't actually care about names of winners: we're interested in how many medals that different countries won
 
 For more info, see [The Guardian Datablog Olympic medal winners: every one since 1896 as open data](https://www.theguardian.com/sport/datablog/2012/jun/25/olympic-medal-winner-list-data)
@@ -111,6 +116,7 @@ plot(medal_counts_wide %>% select(-NOC)) # Calls plotting method for class of th
 plot(medal_lm, which=1:2) # Calls plotting method for class of medal_lm object ("lm"), print first two plots only
 ```
 
+For a nice explanation (using R!) of regression diagnostics see e.g. [Regression diagnostic plots (CMU)](https://www.andrew.cmu.edu/user/achoulde/94842/homework/regression_diagnostics.html)
 
 ## Pros/cons of base graphics
 * Good for exploratory data analysis and sanity checks

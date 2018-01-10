@@ -18,11 +18,13 @@ air <- read.csv(file.path('..', 'data', 'airline.csv'), stringsAsFactors = FALSE
 
 # Describing relationships
 
-- Once we've carried out group-wise operations and perhaps reshaped it, we may also like to describe the relationships in the data. Often this involves fitting some style of regression model.  The goal can be pure prediction, description, or inferring a causal relationship between variables.
++ Once we've carried out group-wise operations and perhaps reshaped it, we may also like to describe the relationships in the data. 
++ Often this involves fitting some style of *regression model.*  
++ The goal can be pure prediction, description, or inferring a causal relationship between variables.
 
-Of course to infer causality, one has to be quite careful and techniques that try to avoid the usual pitfall that correlation is not causation are way beyond what we can cover here.
+Of course to infer causality, one has to be quite careful; techniques that try to avoid the usual pitfall that **correlation is not causation** are way beyond what we can cover here.
 
-We'll just see the basics of how to fit regressions here. 
+We'll just see the basics of how to fit regressions here; for more, take e.g. "Intro to Data Math" or "Intro to Biostatistic" or...
 
 # Inference/Regression
 
@@ -30,9 +32,9 @@ We'll just see the basics of how to fit regressions here.
 
 - Most basic, catch-all regression function in R is *glm*
 
-- *glm* fits a generalized linear model with your choice of family/link function (gaussian, logit, poisson, etc.)
+- *glm* fits a *generalized linear model* with your choice of family/link function (gaussian, logit, poisson, etc.)
 
-- *lm* is just a standard linear regression (equivalent to glm with family = gaussian(link = "identity"))
+- *lm* is just a *standard linear regression* (equivalent to glm with family = gaussian(link = "identity"))
 
 - The basic glm call looks something like this:
 
@@ -41,7 +43,7 @@ glm(formula = y~x1+x2+x3+..., family = familyname(link = "linkname"),
             data = )
 ```
 
-- There are a bunch of families and links to use (help(family) for a full list), but some essentials are **binomial(link = "logit")**, **gaussian(link = "identity")**, and **poisson(link = "log")**
+- There are a bunch of families and links to use (`help(family)` for a full list), but some essentials are **binomial(link = "logit")**, **gaussian(link = "identity")**, and **poisson(link = "log")**
 
 If you're using `lm`, the call looks the same but without the `family` argument. 
 

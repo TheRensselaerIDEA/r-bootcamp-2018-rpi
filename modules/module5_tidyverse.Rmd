@@ -2,11 +2,10 @@
 title: "R Bootcamp, Module 5: </br>Data Manipulation Using the tidyverse"
 date: "January 2018 (RPI)"
 author:
-- "Created by:  Kellie Ottoboni, Rochelle Terman and Chris Krogslun (UC Berkeley)"
+- "Created by: Kellie Ottoboni, Rochelle Terman and Chris Krogslun (UC Berkeley)"
 - "Edited by: John Erickson (RPI IDEA)"
 output: slidy_presentation
 ---
-
 
 
 ```{r chunksetup, include=FALSE} 
@@ -33,6 +32,8 @@ There are two competing schools of thought within the R community.
 * We should start teaching students to manipulate data using `tidyverse` tools because they are straightfoward to use, more readable than base R, and speed up the tidying process.
 
 We'll show you some of the `tidyverse` tools so you can make an informed decision about whether you want to use base R or these newfangled packages.
+
+![Welcome to the tidyverse](img/tidyverse.png)
 
 # Example Dataset
 

@@ -647,12 +647,12 @@ mod_multiple &lt;-<span class="st"> </span><span class="kw">gam</span>(DepDelayC
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmultinom</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="dt">prob =</span> <span class="kw">c</span>(.<span class="dv">1</span>, .<span class="dv">1</span>, .<span class="dv">2</span>, .<span class="dv">3</span>, .<span class="dv">25</span>, .<span class="dv">05</span>)) </code></pre></div>
 <pre><code>##      [,1]
-## [1,]   10
+## [1,]    7
 ## [2,]   10
-## [3,]   19
-## [4,]   36
-## [5,]   19
-## [6,]    6</code></pre>
+## [3,]   28
+## [4,]   34
+## [5,]   16
+## [6,]    5</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dt">length =</span> <span class="dv">100</span>)
 <span class="kw">plot</span>(x, <span class="kw">dchisq</span>(x, <span class="dt">df =</span> <span class="dv">1</span>), <span class="dt">type =</span> <span class="st">'l'</span>)
 <span class="kw">lines</span>(x, <span class="kw">dchisq</span>(x, <span class="dt">df =</span> <span class="dv">2</span>), <span class="dt">col =</span> <span class="st">'red'</span>)</code></pre></div>
@@ -665,8 +665,8 @@ mod_multiple &lt;-<span class="st"> </span><span class="kw">gam</span>(DepDelayC
 <h1>Other types of simulation and sampling</h1>
 <p>We can draw a sample with or without replacement.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sample</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(air), <span class="dv">20</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>##  [1]  57088 415664 536896  94547 506216 262779 214374 448381 392150 406982
-## [11] 442912 403588 199636 368743  79732 292414 336038 476388 295020   9284</code></pre>
+<pre><code>##  [1]  32092 434363  63100  59913  79757 260783   5611 461424  67246 263263
+## [11] 348833  20536 235665 306923  54435 178432 301917 141169 393853 313424</code></pre>
 <p>Here's an example of some code that would be part of coding up a bootstrap.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># actual mean</span>
 <span class="kw">mean</span>(air$DepDelay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre></div>
@@ -674,7 +674,7 @@ mod_multiple &lt;-<span class="st"> </span><span class="kw">gam</span>(DepDelayC
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># here's a bootstrap sample:</span>
 smp &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">seq_len</span>(<span class="kw">nrow</span>(air)), <span class="dt">replace =</span> <span class="ot">TRUE</span>) 
 <span class="kw">mean</span>(air$DepDelay[smp], <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## [1] 11.13951</code></pre>
+<pre><code>## [1] 11.17215</code></pre>
 <p>It's a good idea to use <code>seq_along()</code> and <code>seq_len()</code> and not syntax like <code>1:length(air)</code> in <code>sample()</code> because the outcome of <code>length()</code> might in some cases be unexpected (e.g., if you're taking subsets of a dataset). Similar reasoning holds when setting up for loops: e.g.,</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for(i in <span class="kw">seq_len</span>(<span class="kw">nrow</span>(air))) {
 <span class="co"># blah</span>
