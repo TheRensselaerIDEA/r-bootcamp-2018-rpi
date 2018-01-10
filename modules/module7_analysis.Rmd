@@ -34,7 +34,7 @@ We'll just see the basics of how to fit regressions here; for more, take e.g. "I
 
 - *glm* fits a *generalized linear model* with your choice of family/link function (gaussian, logit, poisson, etc.)
 
-- *lm* is just a *standard linear regression* (equivalent to glm with family = gaussian(link = "identity"))
+- *lm* is just a *standard linear regression*; equivalent to glm with `family = gaussian(link = "identity")`
 
 - The basic glm call looks something like this:
 
@@ -43,11 +43,14 @@ glm(formula = y~x1+x2+x3+..., family = familyname(link = "linkname"),
             data = )
 ```
 
-- There are a bunch of families and links to use (`help(family)` for a full list), but some essentials are **binomial(link = "logit")**, **gaussian(link = "identity")**, and **poisson(link = "log")**
++ There are several families and links to use (`help(family)` for a full list), but some essentials:
+    + `family = binomial(link = "logit")`
+    + `family = gaussian(link = "identity")`
+    + `family = poisson(link = "log")`
 
 If you're using `lm`, the call looks the same but without the `family` argument. 
 
-- Example: suppose we want to regress the life expectency on the GDP per capita and the population, as well as the continent and year.  The lm/glm call would be something like this:
++ Example: suppose we want to regress the life expectency on the GDP per capita and the population, as well as the continent and year.  The lm/glm call would be something like this:
 
 ```{r}
 gapminder <- read.csv(file.path("..", "data",
@@ -59,7 +62,7 @@ reg <- lm(formula = lifeExp ~ gdpPercap + pop + continent + year,
 
 # Regression output
 
-- When we store this regression in an object, we get access to several items of interest
+- When we store this regression in an *object*, we get access to several items of interest. Let's take a look:
 
 ```{r}
 # View components contained in the regression output
@@ -70,7 +73,8 @@ reg$coefficients
 reg$df.residual
 # Examine regression fit (AIC)
 reg$aic
-# See the standard (diagnostic) plots for a regression
+# See the standard (diagnostic) plots for a regression object
+# Do ?plot.lm for more info!
 plot(reg)
 ```
 
@@ -79,7 +83,7 @@ plot(reg)
 summary(reg)
 ```
 
-- Can also extract useful things from the summary object
+- We can also extract useful things from the summary object
 
 ```{r}
 # Store summary method results
@@ -90,7 +94,8 @@ objects(summ_reg)
 summ_reg$coefficients
 ```
 
-- Note that, in our results, R has broken up our variables into their different factor levels (as it will do whenever your regressors have factor levels)
+- Note that, in our results, R has broken up our variables into their different factor levels
+    + It will do this whenever your regressors have factor levels
 
 - If your data aren't factorized, you can tell lm/glm to factorize a variable (i.e. create dummy variables on the fly) by writing
 
@@ -102,15 +107,14 @@ glm(formula = y~x1+x2+factor(x3), family = family(link = "link"),
 # Setting up regression interactions
 
 - There are also some useful shortcuts for regressing on interaction terms:
-
-`x1:x2` interacts all terms in x1 with all terms in x2
+    + "x1:x2" interacts all terms in x1 with all terms in x2
 ```{r}
 summary(glm(formula = lifeExp ~ gdpPercap + pop +
                     continent:factor(year), 
                 family = gaussian, data = gapminder))
 ```
 
-`x1*x2` produces the cross of x1 and x2, or x1+x2+x1:x2
+    + "x1*x2"" produces the cross of x1 and x2, or x1+x2+x1:x2
 ```{r}
 summary(glm(formula = lifeExp ~ gdpPercap + pop + continent*factor(year), 
                 family = gaussian, data = gapminder))
@@ -119,17 +123,17 @@ summary(glm(formula = lifeExp ~ gdpPercap + pop + continent*factor(year),
 
 # Smoothing
 
-Linear regression and GLMs are of course useful, but often the relationship is not linear, even on some transformed scale.
++ Linear regression and GLMs are of course useful, but often the relationship is *not* linear, even on some transformed scale.
 
-Additive models and generalized additive models (GAMs) are the more flexible variants on linear models and GLMs.
++ Additive models and generalized additive models (GAMs) are the more flexible variants on linear models and GLMs.
 
-There are a variety of tools in R for modeling nonlinear and smooth relationships, mirroring the variety of methods in the literature.
++ There are a variety of tools in R for modeling nonlinear and smooth relationships, mirroring the variety of methods in the literature.
 
-One workhorse is `gam()` in the *mgcv* package.
++ One workhorse is `gam()` in the *mgcv* package.
 
 # GAM in action
 
-Let's consider month in the airline dataset.
+Let's consider `month` in the airline dataset.
 
 Any hypotheses about the relationship of delays with month and time of day?
 
@@ -163,7 +167,7 @@ plot(mod_LAX)
 plot(mod_ORD)
 ```
 
-# A bit more model-building 
+# A bit more about model-building 
 
 If we were willing to assume that the month and time effects are the same across destinations but there are different average delays by destination:
 
@@ -227,7 +231,8 @@ smp <- sample(seq_len(nrow(air)), replace = TRUE)
 mean(air$DepDelay[smp], na.rm = TRUE)
 ```
 
-It's a good idea to use `seq_along()` and `seq_len()` and not syntax like `1:length(air)` in `sample()` because the outcome of `length()` might in some cases be unexpected (e.g., if you're taking subsets of a dataset). Similar reasoning holds when setting up for loops: e.g., 
++ It's a good idea to use `seq_along()` and `seq_len()` and not syntax like `1:length(air)` in `sample()` because the outcome of `length()` might in some cases be unexpected (e.g., if you're taking subsets of a dataset). 
++ Similar reasoning holds when setting up for loops: e.g., 
 
 ```{r eval=FALSE}
 for(i in seq_len(nrow(air))) {
@@ -243,7 +248,7 @@ A few key facts about generating random numbers
 * Random numbers on a computer are *pseudo-random*; they are generated deterministically from a very, very, very long sequence that repeats
 * The *seed* determines where you are in that sequence
 
-To replicate any work involving random numbers, make sure to set the seed first.
+To replicate any work involving random numbers, **&make sure to set the seed first.**
 
 ```{r}
 set.seed(1)
@@ -258,7 +263,7 @@ vals
 
 # Optimization
 
-R provides functionality for optimization - finding maxima or minima of a function. 
+R provides functionality for optimization: finding maxima or minima of a function. 
 
 A workhorse is `optim()`, which implements a number of optimization algorithms. 
 
