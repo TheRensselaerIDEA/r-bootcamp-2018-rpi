@@ -173,7 +173,7 @@ z &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>); y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)
 <span class="kw">lm</span>(y ~<span class="st"> </span>x)</code></pre></div>
 <pre><code>## y ~ x
-## &lt;environment: 0x414d538&gt;</code></pre>
+## &lt;environment: 0x2c61f50&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stats::<span class="kw">lm</span>(y ~<span class="st"> </span>x)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -181,7 +181,7 @@ z &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a 
 ## 
 ## Coefficients:
 ## (Intercept)            x  
-##    -0.02409     -0.03875</code></pre>
+##     0.31579     -0.07571</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(lm)</code></pre></div>
 <p>Can you explain what is going on? Consider the results of <code>search()</code>.</p>
 <h3 id="looking-inside-a-package">Looking inside a package</h3>
@@ -287,7 +287,7 @@ x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(xtable)
 <span class="kw">print</span>(<span class="kw">xtable</span>(<span class="kw">table</span>(air$UniqueCarrier, air$Cancelled)), <span class="dt">type =</span> <span class="st">&quot;html&quot;</span>)</code></pre></div>
 <!-- html table generated in R 3.4.2 by xtable 1.8-2 package -->
-<!-- Wed Jan 10 08:08:25 2018 -->
+<!-- Thu Jan 11 06:46:02 2018 -->
 <table border="1">
 <tr>
 <th>

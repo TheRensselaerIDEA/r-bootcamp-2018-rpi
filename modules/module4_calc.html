@@ -74,10 +74,10 @@ chi2_df1000 &lt;-<span class="st"> </span><span class="kw">sum</span>(chi2vals)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vals &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="fl">1e6</span>)
 <span class="kw">system.time</span>(trunc &lt;-<span class="st"> </span><span class="kw">ifelse</span>(vals &gt;<span class="st"> </span><span class="dv">0</span>, vals, <span class="dv">0</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.084   0.000   0.087</code></pre>
+##   0.076   0.000   0.078</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(vals &lt;-<span class="st"> </span>vals *<span class="st"> </span>(vals &gt;<span class="st"> </span><span class="dv">0</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.008   0.000   0.010</code></pre>
+##   0.012   0.000   0.011</code></pre>
 <p><strong>Question</strong>: What am I doing with <code>vals * (vals &gt; 0)</code> ? What happens behind the scenes in R?</p>
 <p>If you use a trick like this, having a comment in your code is a good idea.</p>
 <p>Lots of functions in R are vectorized, such as some we’ve already used.</p>
@@ -211,7 +211,7 @@ for(i in <span class="dv">1</span>:n)
       vals[i] &lt;-<span class="st"> </span>i
 })</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.048   0.000   0.047</code></pre>
+##   0.044   0.000   0.046</code></pre>
 <p>Here’s how to pre-allocate an empty list:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vals &lt;-<span class="st"> </span><span class="kw">list</span>(); <span class="kw">length</span>(vals) &lt;-<span class="st"> </span>n
 <span class="kw">head</span>(vals)</code></pre></div>

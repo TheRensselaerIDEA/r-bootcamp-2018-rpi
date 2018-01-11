@@ -15,7 +15,13 @@ if(!('modules' %in% unlist(strsplit(getwd(), split = '/')))) setwd('modules')
 air <- read.csv(file.path('..', 'data', 'airline.csv'), stringsAsFactors = FALSE)
 ```
 
-# Tips for avoiding bugs
+# First things first: RStudio Cheat Sheets!
+
++ Via RStudio Help Menu
+![](img/cheatsheets.png)
++ Via the web [https://www.rstudio.com/resources/cheatsheets/](https://www.rstudio.com/resources/cheatsheets/)
+
+# Tips for avoiding bugs (1)
 
 - Plan out your code in advance, including all special cases/possibilities.
 - When doing software development, write tests for your code early in
@@ -23,35 +29,28 @@ the process.
 - Build up code in pieces, testing along the way. Make big changes in
 small steps, sequentially checking to see if the code has broken on
 test case(s).
-- Code in a modular fashion, making good use of functions, so that you
-don't need to debug the same code multiple times. Smaller functions
-are easier to debug, easier to understand, and can be combined in
-a modular fashion (like the UNIX utilities)
-- Use core R functionality and algorithms already coded. Figure out
-if a functionality already exists in (or can be adapted from) an R
-package (or potentially in a C/Fortran library/package): code that
-is part of standard mathematical/numerical packages will probably
+- Code in a modular fashion
+    - Make use of functions, so that you don't need to debug the same code multiple times. 
+    - Smaller functions are easier to debug, easier to understand, and can be combined in a modular fashion (like the UNIX utilities)
+- Use "core R"" functionality and algorithms already coded. 
+    - Figure out if a functionality already exists in (or can be adapted from) an R
+package (or potentially in a C/Fortran library/package): 
+    - Code that is part of standard mathematical/numerical packages will probably
 be more efficient and bug-free than anything you would write.
-- Remove objects you don't need, to avoid accidentally using values
-from an old object via the scoping rules.
-- Be careful that the conditions of *if* statements and the sequences
-of *for* loops are robust when they involve evaluating R code.
-- Don't hard code numbers - use variables (e.g., number of iterations,
-parameter values in simulations), even if you don't expect to change
-the value, as this makes the code more readable and reduces bugs when
-you use the same number multiple times: 
-- Check that inputs to and outputs from functions (either functions
-you call or functions you write) are valid and use `warning()`
-and `stop()` to give a warning or stop execution when something
-unexpected happens.
-- Use `try()` with functions that may fail 
-in cases where you don't want overall execution to fail because a
-single piece of the execution fails.
+
+# Tips for avoiding bugs (2)
+
+- Remove objects you don't need, to avoid accidentally using values from an old object via the scoping rules.
+- Be careful that the conditions of *if* statements and the sequences of *for* loops are robust when they involve evaluating R code.
+- Don't hard code numbers - use variables (e.g., number of iterations, parameter values in simulations), even if you don't expect to change the value
+    - as this makes the code more readable and reduces bugs when
+you use the same number multiple times
+- Check that inputs to and outputs from functions (either functions you call or functions you write) are valid
+    - use `warning()` and `stop()` to give a warning or stop execution when something unexpected happens.
+- Use `try()` with functions that may fail in cases where you don't want overall execution to fail because a single piece of the execution fails.
 - Write code for clarity and accuracy first; then worry about efficiency.
-Write an initial version of the code in the simplest way, without
-trying to be efficient (e.g., you might use \emph{for} loops even
-if you're coding in R); then make a second version that employs efficiency
-tricks and check that both produce the same output.
+    - Write an initial version of the code in the simplest way, without trying to be efficient (e.g., you might use \emph{for} loops even if you're coding in R); 
+    - Make a second version that employs efficiency tricks and check that both produce the same output.
 
 # Common syntax errors and bugs
   - Parenthesis mis-matches
@@ -113,15 +112,15 @@ if(FALSE) {
 }
 ```    
 
-1) We can use ``debug()`` to step through a function line by line
+1. We can use ``debug()`` to step through a function line by line
 
-2) After an error occurs, we can use ``traceback()`` to look at the *call stack*
+2. After an error occurs, we can use ``traceback()`` to look at the *call stack*
 
-3) More helpfully, if we set ``options(error = recover)`` before running code, we can go into the function in which the error occurred
+3. More helpfully, if we set ``options(error = recover)`` before running code, we can go into the function in which the error occurred
 
-4) We can insert ``browser()`` inside a function and R will stop there and allow us to proceed with debugging statements
+4. We can insert ``browser()`` inside a function and R will stop there and allow us to proceed with debugging statements
 
-5) You can temporarily insert code into a function (including built-in functions) with ``trace(fxnName, edit = TRUE)``
+5. You can temporarily insert code into a function (including built-in functions) with ``trace(fxnName, edit = TRUE)``
 
 # Testing
 
@@ -163,7 +162,7 @@ benchmark(ifelse(x < 0, x, 0),
 For more advanced assessment of bottlenecks in your code, consider `Rprof()`. The following two functions both remove rows from a dataset when any value in the row is missing. 
 
 
-```
+```{r}
 fun1 <- function(x) {
   res <- NULL
   n <- nrow(x)
@@ -188,7 +187,7 @@ fun2 <- function(x) {
 Now let's try these two functions with profiling turned on.
 
 
-```
+```{r}
 x <- matrix(rnorm(10000*30), 10000)
 x[5, 3] <- NA
 x[1000, 7] <- NA
@@ -346,7 +345,7 @@ Here are some useful articles talking about reproducibility.
 # Breakout
 
 Please fill out the feedback survey.
-[http://bit.ly/RBootcamp2017](http://bit.ly/RBootcamp2017)
+[http://bit.ly/rbootcamp2018survey](http://bit.ly/rbootcamp2018survey)
 
 # Next Module
 

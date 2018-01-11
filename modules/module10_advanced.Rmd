@@ -373,13 +373,13 @@ We'll focus on shared memory computation here.
 
 # How do I know how many cores a computer has?
 
-* Linux - count the processors listed in */proc/cpuinfo* or use `nproc`
-* Mac - in a terminal: `system_profiler | grep -i 'Cores'`
-* Windows - count the number of graphs shown for CPU Usage (or CPU Usage History) under "Task Manager->Performance", or [try this program](http://www.cpuid.com/cpuz.php) 
+* Linux: use `nproc`
+* Mac: in a terminal: `system_profiler | grep -i 'Cores'`
+* Windows: count the number of graphs shown for CPU Usage (or CPU Usage History) under "Task Manager->Performance", or [try this program](http://www.cpuid.com/cpuz.php) 
  
 To see if multiple cores are being used by your job, you can do:
 
-* Mac/Linux - use *top* or *ps*
+* Mac/Linux - use *top* or *htop* or *ps*
 * Windows - see the "Task Manager->Performance->CPU Usage"
 
 # How can we make use of multiple cores?
@@ -398,7 +398,7 @@ R comes with a default BLAS (basic linear algebra subroutines) and LAPACK (linea
 
 A 'thread' is a lightweight process, and the operating system sees multiple threads as part of a single process.
 
-* For Linux, *openBLAS*, Intel's *MKL* and AMD's *ACML* are both fast and threaded. On the SCF we have openBLAS on the compute servers and ACML on the Linux cluster and R uses these for linear algebra.
+* For Linux, *openBLAS*, Intel's *MKL* and AMD's *ACML* are fast and threaded. RPI's IDEA Cluster uses *MKL*!
 * For Mac, Apple's *vecLib* (in a library called *libRblas.vecLib.dylib*) is fast and threaded.
 * For Windows, you're probably out of luck.
 
@@ -406,7 +406,7 @@ We'll demonstrate that my Linux laptop is using multiple cores for linear algebr
 
 ```{r chunk-13, cache=TRUE}
 # Note: May not work in RStudio
-n <- 5000
+n <- 10000
 x <- matrix(rnorm(n^2), n)
 U <- chol(crossprod(x))
 ```
@@ -457,7 +457,7 @@ require(doParallel)
 require(foreach)
 require(mgcv)
 
-nCores <- 2  # actually only 2 on my laptop, but appears hyperthreaded
+nCores <- 4  # actually only 2 on my laptop, but appears hyperthreaded
 registerDoParallel(nCores)
 
 fitFun <- function(curDest) {

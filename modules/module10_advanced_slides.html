@@ -133,7 +133,7 @@ mod2$residuals[<span class="dv">1</span>:<span class="dv">20</span>] <span class
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predict</code></pre></div>
 <pre><code>## function (object, ...) 
 ## UseMethod(&quot;predict&quot;)
-## &lt;bytecode: 0x2dac898&gt;
+## &lt;bytecode: 0x25eb898&gt;
 ## &lt;environment: namespace:stats&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># predict.glm</span></code></pre></div>
 <p>When <code>predict()</code> is called on a GLM object, it first calls the generic <code>predict()</code>, which then recognizes that the first argument is of the class <em>glm</em> and immediately calls the right class-specific method, <code>predict.glm()</code> in this case.</p>
@@ -376,14 +376,14 @@ for(i in <span class="dv">1</span>:nVals) {
    results[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(tmp)
 }
 results</code></pre></div>
-<pre><code>## [1] -0.5094432  0.9336510  0.6013386</code></pre>
+<pre><code>## [1] 0.1511500 0.8835241 0.5105976</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">varName</code></pre></div>
 <pre><code>## [1] &quot;x3&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tmp</code></pre></div>
-<pre><code>##  [1] 0.40796117 0.60482584 0.58105214 0.67251104 0.08867849 0.69033543
-##  [7] 0.86290986 0.76297625 0.92189343 0.12603552 0.75542840 0.15233235
-## [13] 0.50667315 0.12879242 0.88787840 0.96835261 0.52224301 0.99413165
-## [19] 0.53395129 0.85780871</code></pre>
+<pre><code>##  [1] 0.09331926 0.70980665 0.51261761 0.94423038 0.00815729 0.36861240
+##  [7] 0.56690109 0.24807960 0.80775648 0.26159540 0.63238264 0.07641604
+## [13] 0.58497649 0.45946524 0.69686557 0.63957044 0.87866133 0.86273013
+## [19] 0.71242481 0.14738292</code></pre>
 <p>Or suppose you needed to create &quot;x1&quot;, &quot;x2&quot;, &quot;x3&quot;, automatically.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nVals &lt;-<span class="st"> </span><span class="dv">3</span>
 results &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, nVals)
@@ -392,8 +392,8 @@ for(i in <span class="dv">1</span>:nVals) {
    <span class="kw">assign</span>(varName, <span class="kw">rnorm</span>(<span class="dv">10</span>))
 }
 x2</code></pre></div>
-<pre><code>##  [1] -0.5222914  0.4974942  0.3811736 -1.6319656  0.1434668  1.2546873
-##  [7] -0.9540312  0.8599310  1.7601416  0.9251172</code></pre>
+<pre><code>##  [1]  1.02029084 -0.58269878 -0.25537082  0.50289212  0.54256336
+##  [6] -0.06577875 -1.09002137 -0.37318300 -0.55862482  1.33561125</code></pre>
 <p>Can you think of any uses of this ability for R to self-generate?</p>
 </div>
 <div id="file-encodings" class="slide section level1">
@@ -477,13 +477,13 @@ popularR &lt;-<span class="st"> </span><span class="kw">dbGetQuery</span>(db, <s
 <div id="how-do-i-know-how-many-cores-a-computer-has" class="slide section level1">
 <h1>How do I know how many cores a computer has?</h1>
 <ul>
-<li>Linux - count the processors listed in <em>/proc/cpuinfo</em> or use <code>nproc</code></li>
-<li>Mac - in a terminal: <code>system_profiler | grep -i 'Cores'</code></li>
-<li>Windows - count the number of graphs shown for CPU Usage (or CPU Usage History) under &quot;Task Manager-&gt;Performance&quot;, or <a href="http://www.cpuid.com/cpuz.php">try this program</a></li>
+<li>Linux: use <code>nproc</code></li>
+<li>Mac: in a terminal: <code>system_profiler | grep -i 'Cores'</code></li>
+<li>Windows: count the number of graphs shown for CPU Usage (or CPU Usage History) under &quot;Task Manager-&gt;Performance&quot;, or <a href="http://www.cpuid.com/cpuz.php">try this program</a></li>
 </ul>
 <p>To see if multiple cores are being used by your job, you can do:</p>
 <ul>
-<li>Mac/Linux - use <em>top</em> or <em>ps</em></li>
+<li>Mac/Linux - use <em>top</em> or <em>htop</em> or <em>ps</em></li>
 <li>Windows - see the &quot;Task Manager-&gt;Performance-&gt;CPU Usage&quot;</li>
 </ul>
 </div>
@@ -504,13 +504,13 @@ popularR &lt;-<span class="st"> </span><span class="kw">dbGetQuery</span>(db, <s
 <p>R comes with a default BLAS (basic linear algebra subroutines) and LAPACK (linear algebra package) that carry out the core linear algebra computations. However, you can generally improve performance (sometimes by an order of magnitude) by using a different BLAS. Furthermore a threaded BLAS will allow you to use multiple cores.</p>
 <p>A 'thread' is a lightweight process, and the operating system sees multiple threads as part of a single process.</p>
 <ul>
-<li>For Linux, <em>openBLAS</em>, Intel's <em>MKL</em> and AMD's <em>ACML</em> are both fast and threaded. On the SCF we have openBLAS on the compute servers and ACML on the Linux cluster and R uses these for linear algebra.</li>
+<li>For Linux, <em>openBLAS</em>, Intel's <em>MKL</em> and AMD's <em>ACML</em> are fast and threaded. RPI's IDEA Cluster uses <em>MKL</em>!</li>
 <li>For Mac, Apple's <em>vecLib</em> (in a library called <em>libRblas.vecLib.dylib</em>) is fast and threaded.</li>
 <li>For Windows, you're probably out of luck.</li>
 </ul>
 <p>We'll demonstrate that my Linux laptop is using multiple cores for linear algebra operations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Note: May not work in RStudio</span>
-n &lt;-<span class="st"> </span><span class="dv">5000</span>
+n &lt;-<span class="st"> </span><span class="dv">10000</span>
 x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(n^<span class="dv">2</span>), n)
 U &lt;-<span class="st"> </span><span class="kw">chol</span>(<span class="kw">crossprod</span>(x))</code></pre></div>
 <p>You should see that your R process is using more than 100% of CPU. Inconceivable!</p>
@@ -551,7 +551,7 @@ U &lt;-<span class="st"> </span><span class="kw">chol</span>(<span class="kw">cr
 <span class="kw">require</span>(foreach)
 <span class="kw">require</span>(mgcv)
 
-nCores &lt;-<span class="st"> </span><span class="dv">2</span>  <span class="co"># actually only 2 on my laptop, but appears hyperthreaded</span>
+nCores &lt;-<span class="st"> </span><span class="dv">4</span>  <span class="co"># actually only 2 on my laptop, but appears hyperthreaded</span>
 <span class="kw">registerDoParallel</span>(nCores)
 
 fitFun &lt;-<span class="st"> </span>function(curDest) {

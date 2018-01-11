@@ -4,3 +4,14 @@ RevoUtils
 Matrix
 lme4
 RSQLite
+knitr
+rmarkdown
+foreign
+dotCall64
+spam
+maps
+fields
+nlme
+mgcv
+codetools
+rbenchmark
