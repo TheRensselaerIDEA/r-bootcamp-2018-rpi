@@ -1,9 +1,9 @@
 ---
 title: "R Bootcamp, Module 5: </br>Data Manipulation Using the tidyverse"
-date: "January 2018 (RPI)"
+date: "Updated 17 Feb 2021 (JSE)"
 author:
 - "Created by: Kellie Ottoboni, Rochelle Terman and Chris Krogslun (UC Berkeley)"
-- "Edited by: John Erickson (RPI IDEA)"
+- "Edited by: John S. Erickson (The Rensselaer IDEA)"
 output: slidy_presentation
 ---
 
@@ -11,29 +11,52 @@ output: slidy_presentation
 ```{r chunksetup, include=FALSE} 
 # include any code here you don't want to show up in the document,
 # e.g. package and dataset loading
-library(dplyr)
-library(tidyr)
+library(tidyverse)
 library(ggplot2)
 if(!('modules' %in% unlist(strsplit(getwd(), split = '/')))) setwd('modules')
 ```
 
-# Overview
+# Philosophy
 
 > It is often said that 80% of data analysis is spent on the process of cleaning and preparing the data. (Dasu and Johnson, 2003)
 
-Thus before you can even get to doing any sort of sophisticated analysis or plotting, you'll generally first need to: 
+Thus before you can even start on any sort of sophisticated analysis or plotting, you first must: 
 
-1. ***Manipulating*** data frames, e.g. filtering, summarizing, and conducting calculations across groups.
-2. ***Tidying*** data into the appropriate format
+1. ***Manipulate*** data frames: filtering, summarizing, and conducting calculations across groups
+2. ***Tidy*** data into the appropriate format
 
-There are two competing schools of thought within the R community.
+Historically there are two schools of thought within the R community...and at RPI!
 
-* We should stick to the base R functions to do manipulating and tidying; `tidyverse` uses syntax that's unlike base R and is superfluous.
-* We should start teaching students to manipulate data using `tidyverse` tools because they are straightfoward to use, more readable than base R, and speed up the tidying process.
+* "We should stick to the base R functions for manipulating and tidying"
+    * `tidyverse` uses syntax that's unlike base R and is superfluous.
+    * This view is increasingly fading
+* "We should start teaching students to manipulate data using `tidyverse` tools"
+    * `tidyverse` methods are easy to use, more readable than base R, and speed up the tidying process.
+    * This is the dominant view, and is what we believe!
 
-We'll show you some of the `tidyverse` tools so you can make an informed decision about whether you want to use base R or these newfangled packages.
+# Welcome to the tidyverse!
 
-![Welcome to the tidyverse](img/tidyverse.png)
+This tutorial shows you some of the `tidyverse` tools so you can make an informed decision about whether you want to continue to suffer through Base R or enter the tidyverse.
+
+```{r echo=FALSE, out.width='75%', fig.align='center'}
+knitr::include_graphics('./img/tidyverse.png')
+```
+
+# tidyverse Packages
+
+See also: https://www.tidyverse.org/packages/ 
+
+```{r echo=FALSE, out.width='75%', fig.align='center'}
+knitr::include_graphics('./img/tidyverse_packages.png')
+```
+
+# Check out the tidyverse cheatsheet!
+
+See also: https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf  (Updated 17 Jan 2021)
+
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics('./img/tidyverse_cheatsheet.png')
+```
 
 # Example Dataset
 
@@ -43,6 +66,12 @@ For this unit, we'll be working with the "Gapminder" dataset, which is excerpt o
 gapminder <- read.csv("../data/gapminder-FiveYearData.csv",
           stringsAsFactors = TRUE)
 head(gapminder)
+```
+
+Another, more complete way to sanity-check our data types:
+
+```{r}
+str(gapminder)
 ```
 
 # Dataframe Manipulation using Base R Functions
@@ -59,11 +88,13 @@ mean(gapminder[gapminder$continent == "Asia", "gdpPercap"])
 
 But this isn't ideal because it involves a fair bit of repetition. Repeating yourself will cost you time, both now and later, and potentially introduce some nasty bugs.
 
-# Dataframe Manipulation using dplyr
+We want our code to more closely resemble our _thinking_, which is "get the means by `continent`"
+
+# Dataframe Manipulation Using dplyr
 
 Luckily, the [`dplyr`](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) package provides a number of very useful functions for manipulating dataframes. These functions will save you time by reducing repetition. As an added bonus, you might even find the `dplyr` grammar easier to read.
 
-Here we're going to cover 6 of the most commonly used functions as well as using pipes (`%>%`) to combine them.
+Here we're going to cover six of the most commonly used functions as well as using pipes (`%>%`) to combine them.
 
 1. `select()`
 2. `filter()`
@@ -72,7 +103,7 @@ Here we're going to cover 6 of the most commonly used functions as well as using
 5. `mutate()`
 6. `arrange()`
 
-If you have have not installed this package earlier, please do so now:
+`dplyr` will be installed when installing `tidyverse`, or you can install it by itself:
 
 ```{r,eval=FALSE}
 # not run
@@ -85,7 +116,7 @@ Now let's load the package:
 library(dplyr)
 ```
 
-# dplyr select
+# dplyr `select()`
 
 Imagine that we just received the gapminder dataset, but are only interested in a few variables in it. We could use the `select()` function to keep only the columns corresponding to variables we select.
 
@@ -108,22 +139,23 @@ But, as we will see, `dplyr` makes for much more readible, efficient code becaus
 # dplyr pipes
 
 Above, we used what's called 'normal' grammar, but the strengths of `dplyr` lie in combining several functions using *pipes*. 
+
 Pipes take the input on the left side of the `%>%` symbol and pass it in as the first argument to the function on the right side.
+
 Since the pipe grammar is unlike anything we've seen in R before, let's repeat what we've done above using pipes.
 
 ```{r}
-year_country_gdp <- gapminder %>% select(year,country,gdpPercap)
+year_country_gdp <- gapminder %>% select(year, country, gdpPercap)
 ```
 
-First we summon the gapminder dataframe and pass it on to the next step using the pipe symbol `%>%`
-The second steps is the `select()` function.
-In this case we don't specify which data object we use in the call to `select()` since we've piped it in. 
+* First we summon the gapminder dataframe and pass it on to the next step using the pipe symbol `%>%`
+* The second step is the `select()` function. In this case we don't specify the data object to use in the call to `select()` since we've piped it in. 
 
-**Fun Fact**: There is a good chance you have encountered pipes before in the shell. In R, a pipe symbol is `%>%` while in the shell it is `|.` But the concept is the same!
+**Fun Fact**: There is a good chance you have encountered pipes before in the Linux shell. In R, a pipe symbol is `%>%` while in the shell it is `|.` But the concept is the same!
 
-# dplyr filter
+# dplyr `filter()`
 
-Now let's say we're only interested in African countries. We can combine `select` and `filter` to select only the observations where `continent` is `Africa`.
+Now let's say we're only interested in African countries. We can combine `select()` and `filter()` to select only the observations where `continent` is `Africa`.
 
 ```{r}
 year_country_gdp_africa <- gapminder %>%
@@ -131,17 +163,17 @@ year_country_gdp_africa <- gapminder %>%
     select(year,country,gdpPercap)
 ```
 
-As with last time, first we pass the gapminder dataframe to the `filter()` function, then we pass the filtered version of the gapminder dataframe to the `select()` function.
+First we pass the `gapminder` dataframe to the `filter()` function, then we pass the filtered version of the gapminder dataframe to the `select()` function.
 
-To clarify, both the `select` and `filter` functions subsets the data frame. The difference is that `select` extracts certain *columns*, while `filter` extracts certain *rows*.
+Both the `select()` and `filter()` functions subset the data frame. The difference is that `select()` extracts certain *columns*, while `filter()` extracts certain *rows*.
 
-**Note:** The order of operations is very important in this case. If we used 'select' first, filter would not be able to find the variable `continent` since we would have removed it in the previous step.
+**Note:** The order of operations is very important in this case. If we used `select()` first, `filter()` would not be able to find the variable `continent` since we would have removed it in the previous step.
 
-# dplyr Calculations Across Groups
+# dplyr Calculations across Groups
 
-A common task you'll encounter when working with data is running calculations on different groups within the data. For instance, what if we wanted to calculate the mean GDP per capita for each continent?
+A common task you'll encounter when working with data is running calculations on different groups within the data. For example, what if we wanted to calculate the mean GDP per capita for each continent?
 
-In base R, you would have to run the `mean()` function for each subset of data:
+In base R, you would run the `mean()` function for each subset of data:
 
 ```{r}
 mean(gapminder$gdpPercap[gapminder$continent == "Africa"])
@@ -151,11 +183,12 @@ mean(gapminder$gdpPercap[gapminder$continent == "Europe"])
 mean(gapminder$gdpPercap[gapminder$continent == "Oceania"])
 ```
 
-That's a lot of repetition! To make matters worse, what if we wanted to add these values to our original data frame as a new column? We would have to write something like this:
+That's a lot of repetition! To make matters worse, what if we wanted to then add these values to our original data frame as a new column? We would have to write something like this:
 
 ```{r}
-gapminder$mean.continent.GDP <- NA
+gapminder$mean.continent.GDP <- NA  # Initialize a new column
 
+# Write the values into the new column, for each continent 
 gapminder$mean.continent.GDP[gapminder$continent == "Africa"] <- mean(gapminder$gdpPercap[gapminder$continent == "Africa"])
 
 gapminder$mean.continent.GDP[gapminder$continent == "Americas"] <- mean(gapminder$gdpPercap[gapminder$continent == "Americas"])
@@ -169,26 +202,26 @@ gapminder$mean.continent.GDP[gapminder$continent == "Oceania"] <- mean(gapminder
 
 You can see how this can get pretty tedious, especially if we want to calculate more complicated or refined statistics. We could use loops or apply functions, but these can be difficult, slow, or error-prone. 
 
-# dplyr split-apply-combine
+# dplyr "split-apply-combine"
 
-The abstract problem we're encountering here is know as "split-apply-combine":
+The abstract problem we're encountering here is known as **split-apply-combine**:
 
 ![](img/splitapply.png)
 
 We want to *split* our data into groups (in this case continents), *apply* some calculations on each group, then  *combine* the results together afterwards. 
 
-Module 4 gave some ways to do split-apply-combine type stuff using the `apply` family of functions, but those are error prone and messy.
+There are ways to do split-apply-combine operations using the `apply()` family of functions, but those are error prone and messy.
 
-Luckily, `dplyr` offers a much cleaner, straight-forward solution to this problem. 
+Luckily, `dplyr` offers a much cleaner solution to this problem. 
 
 ```{r}
-# remove this column -- there are two easy ways!
+# remove the column se just added... There are two easy ways!
 gapminder <- gapminder %>% select(-mean.continent.GDP)
 # OR
 gapminder$mean.continent.GDP <- NULL
 ```
 
-# dplyr group_by
+# dplyr `group_by()`
 
 We've already seen how `filter()` can help us select observations that meet certain criteria (in the above: `continent == "Europe"`). More helpful, however, is the `group_by()` function, which will essentially use every unique criteria that we could have used in `filter()`.
 
@@ -196,12 +229,11 @@ A `grouped_df` can be thought of as a `list` where each item in the `list` is a 
 
 ![](img/dplyr-fig2.png)
 
-# dplyr summarize
+# dplyr `summarize()`
 
-`group_by()` on its own is not particularly interesting.
-It's much more exciting used in conjunction with the `summarize()` function. 
-This will allow use to create new variable(s) by applying transformations to variables in each of the continent-specific data frames. 
-In other words, using the `group_by()` function, we split our original dataframe into multiple pieces, which we then apply summary functions to (e.g. `mean()` or `sd()`) within `summarize()`.
+`group_by()` on its own is not particularly interesting. It's much more exciting used in conjunction with the `summarize()` function, which allows use to create new variable(s) by applying transformations to variables in each of the continent-specific data frames. 
+
+In other words, when using the `group_by()` function, we split our original dataframe into multiple pieces, which we then apply summary functions to (e.g. `mean()` or `sd()`) within `summarize()`.
 The output is a new dataframe reduced in size, with one row per group.
 
 ```{r}
@@ -213,7 +245,7 @@ head(gdp_bycontinents)
 
 ![](img/dplyr-fig3.png)
 
-That allowed us to calculate the mean gdpPercap for each continent. But it gets even better -- the function `group_by()` allows us to group by multiple variables. Let's group by `year` and `continent`.
+That allowed us to calculate the mean `gdpPercap` for each continent. But it gets even better -- the function `group_by()` allows us to group by _multiple_ variables. Let's group by `year` and `continent`.
 
 ```{r}
 gdp_bycontinents_byyear <- gapminder %>%
@@ -222,7 +254,7 @@ gdp_bycontinents_byyear <- gapminder %>%
 head(gdp_bycontinents_byyear)
 ```
 
-That is already quite powerful, but it gets even better! You're not limited to defining 1 new variable in `summarize()`.
+That is already quite powerful, but it gets even better! You're not limited to defining one new variable in `summarize()`.
 
 ```{r}
 gdp_pop_bycontinents_byyear <- gapminder %>%
@@ -234,9 +266,9 @@ gdp_pop_bycontinents_byyear <- gapminder %>%
 head(gdp_pop_bycontinents_byyear)
 ```
 
-# dplyr mutate
+# dplyr `mutate()`
 
-What if we wanted to add these values to our original data frame instead of creating a new object? For this, we can use the `mutate()` function, which is similar to `summarize()` except it creates new variables to the same dataframe that you pass into it.
+What if we wanted to extend our original data frame with these values instead of creating a new object? For this, we can use the `mutate()` function, which is similar to `summarize()` except it creates new variables to the same dataframe that you pass into it.
 
 ```{r}
 gapminder_with_extra_vars <- gapminder %>%
@@ -263,7 +295,7 @@ gdp_pop_bycontinents_byyear <- gapminder %>%
 head(gdp_pop_bycontinents_byyear)
 ```
 
-# dplyr arrange
+# dplyr `arrange()`
 
 As a last step, let's say we want to sort the rows in our data frame according to values in a certain column. We can use the `arrange()` function to do this. For instance, let's organize our rows by `year` (recent first), and then by `continent`. 
 
@@ -294,20 +326,20 @@ gapminder_with_extra_vars <- arrange(
 ```
 * Facilitates split-apply-combine manipulations
 
-# Tidying Data
+# Part II: Tidying Data
 
 Even before we conduct analysis or calculations, we need to put our data into the correct format. The goal here is to rearrange a messy dataset into one that is **tidy**
 
 The two most important properties of tidy data are:
 
-1) Each column is a variable.
-2) Each row is an observation.
+1. Each column is a variable.
+2. Each row is an observation.
 
 Tidy data is easier to work with, because you have a consistent way of referring to variables (as column names) and observations (as row indices). It then becomes easy to manipulate, visualize, and model.
 
 For more on the concept of *tidy* data, read Hadley Wickham's paper [here](http://vita.had.co.nz/papers/tidy-data.html)
 
-# Tidying Data/Wide vs. Long Formats
+# Tidying Data: "Wide" vs. "Long" Formats
 
 > "Tidy datasets are all alike but every messy dataset is messy in its own way." – Hadley Wickham
 
@@ -332,7 +364,7 @@ long
 
 **Question**: Which one of these do you think is the *tidy* format?
 
-**Answer**: The first dataframe (the "wide" one) would not be considered *tidy* because values (i.e., heartrate) are spread across multiple columns.
+**Answer**: The first dataframe (the "wide" one) would not be considered *tidy* because values (i.e., `heartrate`) are spread across multiple columns.
 
 We often refer to these different structurs as "long" vs. "wide" formats. In the "long" format, you usually have 1 column for the observed variable and the other columns are ID variables. 
 
@@ -342,9 +374,9 @@ For the "wide" format each row is often a site/subject/patient and you have mult
 
 You may find data input may be simpler and some programs/functions may prefer the "wide" format. However, many of R’s functions have been designed assuming you have "long" format data. 
 
-# Tidying the Gapminder Data
+# Tidying the `gapminder` Data
 
-Lets look at the structure of our original gapminder dataframe:
+Let's revisit the structure of our gapminder dataframe:
 
 ```{r}
 head(gapminder)
@@ -352,27 +384,30 @@ head(gapminder)
 
 **Question**: Is this data frame **wide** or **long**?
 
-**Answer**: This data frame is somewhere in between the purely 'long' and 'wide' formats. We have 3 "ID variables" (`continent`, `country`, `year`) and 3 "Observation variables" (`pop`, `lifeExp`, `gdpPercap`). 
+**Answer**: This data frame is somewhere in between the purely 'long' and 'wide' formats:
 
-Despite not having ALL observations in 1 column, this intermediate format makes sense given that all 3 observation variables have different units. As we have seen, many of the functions in R are often vector based, and you usually do not want to do mathematical operations on values with different units.
+* We have three "ID variables" (`continent`, `country`, `year`)
+* We have three "Observation variables" (`pop`, `lifeExp`, `gdpPercap`)
+
+Despite not having ALL observations in one column, this intermediate format makes sense given that all three observation variables have different units. As we have seen, many of the functions in R are often vector based, and you usually do not want to do mathematical operations on values with different units.
 
 On the other hand, there are some instances in which a purely long or wide format is ideal (e.g. plotting). Likewise, sometimes you'll get data on your desk that is poorly organized, and you'll need to **reshape** it.
 
-# tidyr
+# Enter the tidyr package...
 
 Thankfully, the `tidyr` package will help you efficiently transform your data regardless of original format.
 
 ```{r}
-# Install the "tidyr" package (only necessary one time)
+# Install the "tidyr" package 
 # install.packages("tidyr") # Not Run
 
 # Load the "tidyr" package (necessary every new R session)
 library(tidyr)
 ```
 
-# tidyr gather
+# tidyr `gather()`
 
-Until now, we’ve been using the nicely formatted original gapminder dataset. This dataset is not quite wide and not quite long -- it's something in the middle, but 'real' data (i.e. our own research data) will never be so well organized. Here let's start with the wide format version of the gapminder dataset.
+Until now, we’ve been using the nicely formatted original `gapminder` dataset. This dataset is not quite wide and not quite long -- it's something in the middle, but 'real' data (i.e. our own research data) will never be so well organized. Here let's start with the wide format version of the gapminder dataset.
 
 ```{r}
 gap_wide <- read.csv("../data/gapminder_wide.csv", stringsAsFactors = FALSE)
@@ -388,16 +423,16 @@ gap_long <- gap_wide %>%
 head(gap_long)
 ```
 
-Notice that we put 3 arguments into the `gather()` function: 
+Notice that we put three arguments into the `gather()` function: 
 
-1. the name the new column for the new ID variable (`obstype_year`), 
-2. the name for the new amalgamated observation variable (`obs_value`), 
-3. the indices of the old variables (`3:38`, signalling columns 3 through 38) that we want to gather into one variable. Notice that we don't want to melt down columns 1 and 2, as these are considered "ID" variables.
+1. the name for the _new_ column for the new ID variable (`obstype_year`), 
+2. the name for the _new_ amalgamated observation variable (`obs_value`), 
+3. the indices of the old variables (`3:38`, signalling columns `3` through `38`) that we want to gather into one variable. Notice that we don't want to melt down columns `1` and `2`; these are considered "ID" variables.
 
-# tidyr select
+# tidyr `select()`
 
-If there are a lot of columns or they're named in a consistent pattern, we might not want to select them using the column numbers.
-It'd be easier to use some information contained in the names themselves.
+If there are many columns or they're named in a consistent pattern, we might not want to select them using the column numbers. Sometimes it's easier to use some information contained in the names themselves.
+
 We can select variables using:
 
 * variable indices
@@ -427,7 +462,7 @@ head(gap_long)
 
 However you choose to do it, notice that the output collapses all of the measure variables into two columns: one containing new ID variable, the other containing the observation value for that row. 
 
-# tidyr separate
+# tidyr `separate()`
 
 You'll notice that in our long dataset, `obstype_year` actually contains 2 pieces of information, the observation type (`pop`, `lifeExp`, or `gdpPercap`) and the `year`.
 
@@ -480,7 +515,7 @@ There are some other useful packages in the [tidyverse](http://www.tidyverse.org
 * `stringr`, `lubridate`, `forcats` for manipulating strings, dates, and factors, respectively
 * many more!
 
-# Breakout
+# Exercises:
 
 ### dplyr
 
