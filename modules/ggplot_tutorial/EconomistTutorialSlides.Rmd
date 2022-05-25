@@ -1,0 +1,337 @@
+---
+title: "ggplot2 tutorial"
+author: "John Erickson"
+date: "01/26/2022"
+output: slidy_presentation
+---
+
+# Re-create The Economist graph using ggplot2
+
+![Original Economist Graph](index.png)
+
+# Load Required Packages
+
+```{r message=FALSE}
+library(knitr)
+library(tidyverse)
+library(ggrepel) #Add point labels
+
+library(ggplot2) #Main package for graph
+library(ggthemes)#Themes for formating
+
+library(extrafont) #Adding more font format (this package is optional because it will took sometimes for install all the font)
+
+library(grid) #Add grid line
+library(cowplot) #Add annotation
+```
+
+# The Economist dataset
+
+Let’s start by reading in the well-known Economist dataset, the basis of many R tutorials:
+
+https://github.com/IQSS/dss-workshops-archived/blob/master/R/Rgraphics/dataSets/EconomistData.csv
+
+```{r}
+
+EconomistData <- read_csv("EconomistData.csv")
+
+```
+
+Let’s take a look at it.
+
+```{r}
+
+EconomistData[1:5]
+colnames(EconomistData)
+```
+
+Overall it’s a clean dataset, with only some minor modifications needed on the `Region` column and we’re good to go.
+
+```{r}
+
+EconomistData$Region <- factor(EconomistData$Region,
+                     levels = c("EU W. Europe",
+                                "Americas",
+                                "Asia Pacific",
+                                "East EU Cemt Asia",
+                                "MENA",
+                                "SSA"),
+                     labels = c("OECD",
+                                "Americas",
+                                "Asia &\nOceania",
+                                "Central &\nEastern Europe",
+                                "Middle East &\nnorth Africa",
+                                "Sub-Saharan\nAfrica"))
+```
+
+# Basic graph
+
+Let’s start with the basic plot. We'll initialize a `ggplot` object by loading `EconomistData` as our source dataframe and specifying variables for each axis. We then add the data points, coloring by region with `geom_point()` using default colors.
+
+```{r}
+
+graph1 <-  ggplot(EconomistData, aes (x=CPI, y=HDI))
+graph1 + geom_point(aes(color = Region))
+```
+
+That's not even close! Let’s start by listing out all the components we need to re-create the Economist’s graph based on what we have:
+
+* Change the point shape and color
+* Add a curve fit line
+* Add gridlines
+* Label some specific points
+* Fix axis tick and labels.
+* Fix axis scales
+* Move legend to the top and change color
+* Remove legend title
+* Remove vertical grid line
+* Add footnote
+* Get the superscript right in the legend!
+
+# Point modification
+
+We can change the shape of data point by using shape argument. The different points shapes commonly used in R are illustrated in the figure below :
+
+We can see that **Shape 21** is an circle with border and color inside. We'll use that shape because the border’s thickness can be modified and we can fill the color with white to match with original graph. Let’s add `shape=21` and fill with `white` color.
+
+```{r}
+
+graph1 + geom_point(aes(color = Region),
+                    shape=21, 
+                    fill= "White")
+```
+
+It looks better; however, it seems like the point border is smaller and thinner than the actual point. We can use `size` to change point size and `stroke` to change border size.
+
+```{r}
+
+g2 <- graph1 + geom_point(aes(color = Region),
+                          shape=21, 
+                          fill= "White",
+                          size =3, 
+                          stroke=1.5)
+                        
+ggdraw(g2)
+```
+
+Superb!!!
+
+# Fit line
+
+By looking at the original graph, it seems like the line is created by a quadratic function `y = log(x)`. The materials from Harvard workshop use `geom_line()` to add a linear regression fit line, but in this case we will use `geom_smooth()` since it’s not a linear relationship.
+
+```{r}
+
+g2 + geom_smooth(method = "lm", 
+                 formula = y ~log(x))
+```
+
+It seems to have a weird shaded area around the curve line. It represents the _standard error_ for each predicted value. Let’s remove it by adding `se=FALSE`.
+
+```{r}
+
+g2 + geom_smooth(method = "lm",
+                 formula = y ~log(x), 
+                 se=FALSE)
+```
+
+Finally, let'd change the color and make sure the line is solid.
+
+```{r}
+
+g3 <- g2 + geom_smooth(aes(fill="red"),method = "lm", 
+                       formula = y ~log(x),
+                       se=FALSE, 
+                       linetype=1 , 
+                       color= "Red") 
+
+ggdraw(g3)
+```
+
+# Labeling points
+
+ggplot2 provides a geometry that we can use to label the data points:
+
+```{r}
+g3 + geom_text(aes(label = Country))
+```
+
+Ugh...we've labelled all the data points it’s a mess. There are only some specific data points that need to be labelled; unfortunatly, we have to manually identify and assign them:
+
+```{r}
+point_1 <- c( "Venezuela", "Iraq", "Myanmar", "Sudan",
+                    "Afghanistan", "Congo", "Greece", "Argentina", 
+                    "India", "Italy",
+                    "Botswana", "Cape Verde", "Bhutan", "Rwanda", "France",
+                    "United States",  "Britain", "Barbados", "Norway", 
+                    "New Zealand", "Singapore")
+point_2 <- c("Russia","Brazil","Spain","Germany", "Japan","China","South Africa")
+point_3 <-  c( "Venezuela", "Iraq", "Myanmar", "Sudan",
+               "Afghanistan", "Congo", "Greece", "Argentina", 
+               "India", "Italy",
+               "Botswana", "Cape Verde", "Bhutan", "Rwanda", "France",
+               "United States",  "Britain", "Barbados", "Norway", 
+               "New Zealand", "Singapore","Russia","Brazil","Spain","Germany", "Japan","China","South Africa")
+```
+
+There are only some country labels with connecting lines to their points. Therefore, we separate them to see if we can do anything about it.
+
+Now let’s label all the points without connecting lines.
+
+```{r}
+g3 + geom_text(data=EconomistData[EconomistData$Country %in% point_1,], 
+               aes(label=Country))
+```
+
+It looks okay but having labels overlap data points is annoying. The package `ggrepel` allows us to separate labels from data points as well as adding connection lines.
+
+```{r}
+g4 <- g3 + geom_text_repel(data=EconomistData[EconomistData$Country %in% point_1,], aes(label=Country))
+
+```
+
+It looks way better. Now we proceed to label the data points with connection lines:
+
+```{r}
+g4 + geom_text_repel(data=EconomistData[EconomistData$Country %in% point_2,],
+                     aes(label=Country))
+```
+
+It seems like two `geom_text_repel()` codes create some messy overlap. I might put them together in one group or find a way to hack around it.
+`geom_text_repel()` has some options that allow us to adjust the distance between label and data point using `box.padding`. Let’s try that:
+
+```{r}
+g5 <- g4 + geom_text_repel(data=EconomistData[EconomistData$Country %in% point_2,],
+                    aes(label=Country),
+                    box.padding = unit(1.75, 'lines'))
+ggdraw(g5)
+```
+
+There is still some small overlap but looks pretty neat. I am not completely satistfied with this labelling option so if any one have any better idea please let me know.
+
+# Legend box and color
+
+It’s time to play around with the legend box and color.
+
+We can change the color of the legend using `scale_color_manual`.The color codes are based on the default HTML color code which can be found anywhere on Google. Here is the link that I used: (http://html-color-codes.info/)
+
+```{r}
+ g6 <- g5 +  scale_color_manual( values = c("#23576E", "#099FDB", 
+                                            "#29B00E", "#208F84", 
+                                            "#F55840", "#924F3E")) +
+      scale_fill_manual(name='My Lines', 
+                        values=c("red"),
+                        labels=c(expression(R^2==52 * "%")))
+
+```
+
+It was a little bit tricky to get a seperate legend box for `R2=52%` value. I had to manually add it so that it will appear next to the Region legend box, and we needed to use the `expression()` function to get R to render the superscript. Next we move the Legend box to the top using `theme()` with the `legend.position` parameter.
+
+```{r}
+g6 + theme(legend.position="top")
+```
+
+The legend box is in correct position but we want it to be on one line without any title. Note that `guides()` function forces the legend box to spread all the titles inside, so they stay in one row.
+
+```{r}
+g7 <- g6 + theme(legend.position="top",
+                 legend.title = element_blank(),
+                 legend.box = "horizontal" ,
+                 legend.text=element_text(size=8.5)) +
+  guides(col = guide_legend(nrow = 1))
+ggdraw(g7)
+```
+
+# Grid line
+
+In ggplot2 there are two types of gridlines: major and minor. Major gridlines emanate from the axis ticks while minor gridlines do not. Thus we need to hide the vertical gridlines, both major and minor, while keeping the horizontal major gridlines intact and change their color to grey. 
+
+Since gridlines are theme items, to change their appearance we use `theme()` and set the item with `element_line()`, or if we want to remove the item completely, `element_blank()`.
+
+```{r}
+g8 <- g7 + theme(panel.grid.minor = element_blank(), 
+        panel.grid.major = element_line(color = "gray50", size = 0.5),
+        panel.grid.major.x = element_blank(),
+        panel.background = element_blank(),
+        line = element_blank())
+ggdraw(g8)
+```
+
+# X-axis and Y axis
+
+The default X-axis spans from 0.2 to 1, incremental by 0.2 and Y-axis spans from 1 to 7.5, incremented by 2.5 . To match the original we will force the X-axis to span from 0.2 to 1 incremented by 0,1 and Y-axis to span from 1 to 10 incremented by 1 by setting the limits and breaks in `scale_x_continous()` and `scale_y_continous()`. We can also attach the title for both of them.
+
+```{r}
+g9 <- g8 + scale_x_continuous(expand = c(0, 0),
+                        limits=c(-.2,10.2),
+                        breaks=seq(0,10,1), 
+                        name = "Corruption Perception Index (10=Least corrupt)") +
+  scale_y_continuous(expand = c(0, 0),
+                     limits=c(0.2,1),
+                     breaks=seq(0.2,1,0.1), 
+                     name = "Human Development Index,2011 (1=best)")
+ggdraw(g9)
+```
+
+We also want to remove the axis ticks and set font format for the axes titles.
+
+```{r}
+g10 <-g9 +theme(axis.ticks.length = unit(.15, "cm"),
+        axis.ticks.y = element_blank(),
+        axis.title.x = element_text(color="black", 
+                                    size=10,
+                                    face="italic"),
+        axis.title.y = element_text(color="black",
+                                    size=10,
+                                    face="italic"))
+ggdraw(g10)
+```
+
+# Title and Footnote
+
+Adding a title is simple. The `ggtitle()` function will do the work just fine and we use `theme()` again to add some format:
+
+```{r}
+g11 <- g10+ ggtitle("Corruption and human development\n") + 
+  theme(plot.title = element_text(hjust = -0.15, 
+                                  vjust=2.12, 
+                                  colour="black",
+                                  size = 14,
+                                  face="bold"))
+ggdraw(g11)
+```
+
+The footnote is a little more tricky to create. Some people might "fake it" by extracting a png file from the original and using the `grid` package to manually draw it into the png. However, that's way too complicated and takes too long to perfect align. _And it's faking it..._
+
+After some intense google searching, we found a ggplot2-compatible package called `cowplot` with the function `add_sub()` that allows us to add a footnote directly into graph:
+
+```{r}
+g12 <-  add_sub(g11,"Source:Transparency International; UN Human Development report",
+                x = -0.07,
+                hjust = 0,
+                fontface = "plain",
+                size= 10) 
+ggdraw(g12)
+```
+
+**VOILA!!!!** Now let’s re-examine the original graph. Our's looks really close, modulo us finding a way to move the legend position and our axis lines look uglier. 
+
+<center>
+
+![Original Economist Graph](index.png)
+</center>
+
+<center>
+<img src="index.png" alt="Original Economist Graph">
+</center>
+
+
+However, we should be happy that we can get this close to the original graph using R only!
+
+
+# Wrap-up
+
+At first the Economist example looks like a simple chart to create, but it turns out to be more complex than we might expect. It required more than just standard knowledge in ggplot2.
+
+The point isn’t that you can mimic other styles. It’s that there’s enough flexibility in R to create your own chart, eventhough some of them seems impossible to create. With some customization, we can ultilize R to fullfill our creativity and create amazing looking chart.
+
